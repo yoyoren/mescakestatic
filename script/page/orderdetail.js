@@ -1,106 +1,168 @@
 (function(){
-	var detailTmpl = '<div class="order-detail-con">订单号：<b><%=order.order_sn%></b><span class="odc-date"> <%=order.formated_add_time%></span>\
-	    <%if(order.order_status==0&&order.pay_status!==2){%>\
-	    	<a href="#" id="canel_order" class="td-u link-color fl-r">取消订单</a>\
-	    <%}%>\
-	    </div>\
-        <div class="odc-container">\
-          <div class="odc-title">\
-            <p class="fl-l"><b><%=order.formated_total_fee%></b></p>\
-            <p class="fl-r">状态：\
-			<%if(order.order_status==2){%>已取消\
-			<%} else {%>\
+	var detailTmpl = '<div class="order-detail-con clearfix">\
+        <p class="fl-l">订单号：<%=order.order_sn%> | <%=order.formated_add_time%></p>\
+        <p class="fl-r"><b>订单状态：\
+			<%if(order.order_status==0){%>未确认\
+			<%}else if(order.order_status==1){%>已确认\
+			<%}else if(order.order_status==2){%>已取消\
+			<%}else if(order.order_status==3){%>无效\
+			<%}else if(order.order_status==4){%>退货\
+			<%}else if(order.order_status==5){%>已分单\
+			<%}else if(order.order_status==6){%>部分分单\
+			<%}%>| 配送状态：\
 							<%if(order.shipping_status==0){%>未发货\
 							<%}else if(order.shipping_status==1){%>已发货\
 							<%}else if(order.shipping_status==2){%>已收货\
 							<%}else if(order.shipping_status==3){%>备货中\
 							<%}else if(order.shipping_status==4){%>已发货(部分商品)\
 							<%}else if(order.shipping_status==5){%>发货中(处理分单)\
-						    <%}else if(order.shipping_status==6){%>已发货(部分商品)<%}%>\
+						    <%}else if(order.shipping_status==6){%>已发货(部分商品)<%}%>|\
 					<%if(order.pay_id==4){%>货到付款\
 					<% } else {%>\
 						<%if(order.pay_status==0||!order.pay_status){%>\
-							<%if(order.pay_name=="快钱") {%>\
-								<a href="#" class="btn" onclick="document.forms[&quot;kqPay&quot;].submit();">付款</a>\
-							<%=order.pay_online.replace(/script/gi,"a")%><%} else {%>\
-								<a href="#" id="pay_online" class="btn">付款</a>\
-							<% } %>\
+							未付款\
 						<% }else if(order.pay_status==1){%>\
-						<a href="#" id="" class="btn">付款中</a>\
+							付款中\
 						<% } else {%>\
-						<a href="#" id="" class="btn">已付款</a>\
+							已付款\
 						<% } %>\
-					<% } %>\
-			<%}%>\
-            </p>\
-          </div>\
-          <ul class="order-ul">\
-			<%for(var i=0;i<goods.length;i++){%>\
-				<%if(goods[i].goods_id != 60){%>\
-					<li class="order-item">\
-					  <div class="or-main-container">\
-						<span class="or-name">\
-							<%if(goods[i].goods_id == 61){%>\
-								<img src="img/lazhu.png" class="or-name-img"><span class="or-name-intro"><%=goods[i].goods_name%></span>\
-							<%}else if(goods[i].goods_id == 60){%>\
-								<%if(goods[i].subtotal.replace("￥","") > 0){%>\
-								<img src="img/canju.png" class="or-name-img"><span class="or-name-intro">收费餐具</span>\
-								<% } else {%>\
-								<img src="img/canju.png" class="or-name-img"><span class="or-name-intro">免费餐具</span>\
+					<% } %></b>\
+			</p>\
+		</div>\
+		<div class="n-box">\
+			<em class="buy-line"></em>\
+			<div class="box-inner">\
+			  <div class="od-title-area">\
+				<div class="od-title1">商品</div>\
+				<div class="od-title2">单价</div>\
+				<div class="od-title3">数量</div>\
+				<div class="od-title4">小计</div>\
+			  </div>\
+			  <div class="list-line"></div>\
+			  <ul class="od-ul">\
+				<%for(var i=0;i<goods.length;i++){%>\
+					<%if(goods[i].goods_id != FORK){%>\
+						<li>\
+						  <div class="od-title1">\
+							<%if(goods[i].goods_id == CANDLE||goods[i].goods_id == NUM_CANDLE){%>\
+								<%if(goods[i].goods_id == CANDLE){%>\
+								<span class="od-img-area"><img src="css/img/lazhu1.jpg" class="od-img" width="50"></span><%=goods[i].goods_name%>\
+								<% } %>\
+								<%if(goods[i].goods_id == NUM_CANDLE){%>\
+								<span class="od-img-area"><img src="css/img/order-detail2.png" class="od-img" width="50"></span><%=goods[i].goods_name%>(<%=goods[i].goods_attr%>)\
 								<% } %>\
 							<%}else{%>\
-								<a target="_blank" href="goods.php?id=<%=goods[i].goods_id%>">\
-								  <img src="themes/default/images/sgoods/<%=goods[i].goods_sn.substring(0,3)%>.png" class="or-name-img"><span class="or-name-intro"><%=goods[i].goods_name%>（<%=goods[i].goods_attr%>）</span>\
+								<a target="_blank" href="/cake/<%=goods[i].goods_id%>">\
+								  <span class="od-img-area">\
+									<%if(goods[i].goods_id == CAT_CAKE){%>\
+										<img src="css/img/cat-little.jpg" class="od-img" width="70">\
+								    <% } else {%>\
+										<img src="themes/default/images/sgoods/<%=goods[i].goods_sn.substring(0,3)%>.jpg" class="od-img" width="70">\
+									<% } %>\
+								  </span><%=goods[i].goods_name%><%if(goods[i].goods_id != CAT_CAKE){%>（<%=goods[i].goods_attr%>）<% } %>\
+									<%if(goods[i].attr_id ==23&&goods[i].is_cut ==1){%>- 无糖、切块\
+									<% } else {%>\
+										<%if(goods[i].attr_id ==23){%> - 无糖<% } %>\
+										<%if(goods[i].is_cut ==1){%> - 切块<% } %>\
+									<% } %>\
 								</a>\
 							<% } %>\
-						</span>\
-						<span class="or-price"><%=goods[i].goods_price%> x<%=goods[i].goods_number%></span>\
-					  </div>\
-					  <%if(goods[i].goods_id != 61&&goods[i].goods_id != 60){%>\
-						<%if(goods[i].card_message!="无"){%>\
-						  <div class="or-child-container">\
-							<span class="or-name">\
-							  <img src="img/pai-con2.png" class="or-child-img"><span class="or-name-intro"><%=goods[i].card_message%></span>\
-							</span>\
-							<span class="or-price">x<%=goods[i].goods_number%></span>\
 						  </div>\
-						 <% } %>\
-						<%if(order.fork_message&&order.fork_message[goods[i].goods_id]){%>\
-							<div class="or-child-container">\
-							<span class="or-name">\
-							  <img src="img/canju.png" class="or-child-img"><span class="or-name-intro">收费餐具<span class="color-999"></span></span>\
-							</span>\
-							<span class="or-price">￥0.50x<%=order.fork_message[goods[i].goods_id]%></span>\
-						  </div>\
-						 <% } %>\
-						<div class="or-child-container">\
-							<span class="or-name">\
-							  <img src="img/canju.png" class="or-child-img"><span class="or-name-intro">免费配套餐具<span class="color-999"></span></span>\
-							</span>\
-							<span class="or-price">￥0.00x<%=goods[i].goods_number*parseInt(goods[i].goods_attr)*5%></span>\
-						 </div>\
-					  <% } %>\
-					</li>\
+						  <div class="od-title2"><%=goods[i].goods_price%>元</div>\
+						  <div class="od-title3"><%=goods[i].goods_number%></div>\
+						  <div class="od-title4">￥<%=goods[i].goods_number*parseInt(goods[i].goods_price.replace("￥",""),10)%>元</div>\
+						</li>\
+						<%if(goods[i].goods_id == CAT_CAKE){%>\
+							<li>\
+							  <div class="od-title1">\
+									<a target="_blank" href="/cake/<%=goods[i].goods_id%>">\
+									  <span class="od-img-area">\
+										<img src="css/img/order-detail3.png" class="od-img" width="70">\
+									  </span> 致春天\
+									</a>\
+							  </div>\
+							  <div class="od-title2">赠送</div>\
+							  <div class="od-title3"><%=goods[i].goods_number%></div>\
+							  <div class="od-title4">￥0元</div>\
+							</li>\
+						<% } %>\
+						<%if(goods[i].goods_id != CANDLE&&goods[i].goods_id != FORK&&goods[i].goods_id != NUM_CANDLE){%>\
+							<%if(goods[i].card_message!="无"){%>\
+							  <li>\
+								<div class="od-title1">\
+									<span class="od-img-area">\
+										<img src="img/order-detail4.png" class="od-img">\
+									</span>生日牌(<%=goods[i].card_message%>)\
+			                    </div>\
+								<div class="od-title2">￥0.00元</div>\
+								<div class="od-title3"><%=goods[i].goods_number%></div>\
+								<div class="od-title4">￥0元</div>\
+							  </li>\
+							 <% } %>\
+							<%if(order.fork_message&&order.fork_message[goods[i].goods_id]){%>\
+								<li>\
+								<div class="od-title1">\
+									<span class="od-img-area">\
+									 <img src="img/order-detail1.png" class="od-img">\
+									</span>收费餐具\
+								</div>\
+								<div class="od-title2">￥0.50元</div>\
+								<div class="od-title3"><%=order.fork_message[goods[i].goods_id]%></div>\
+								<div class="od-title4">￥<%=order.fork_message[goods[i].goods_id]*0.5%>元</div>\
+							  </li>\
+							 <% } %>\
+							<%if(order.fork_message&&order.fork_message[goods[i].origin_rec_id]){%>\
+								<li>\
+								<div class="od-title1">\
+									<span class="od-img-area">\
+									 <img src="img/order-detail1.png" class="od-img">\
+									</span>收费餐具\
+								</div>\
+								<div class="od-title2">￥0.50元</div>\
+								<div class="od-title3"><%=order.fork_message[goods[i].origin_rec_id]%></div>\
+								<div class="od-title4">￥<%=order.fork_message[goods[i].origin_rec_id]*0.5%>元</div>\
+							  </li>\
+							<% } %>\
+							<li>\
+								<div class="od-title1">\
+									<span class="od-img-area">\
+									  <img src="img/order-detail1.png" class="od-img">\
+									</span>免费配套餐具\
+								</div>\
+								<div class="od-title2">￥0.00元</div>\
+								<div class="od-title3"><%=goods[i].goods_number*parseInt(goods[i].goods_attr)*5%></div>\
+								<div class="od-title4">￥0.00元</div>\
+							 </li>\
+						  <% } %>\
+						<% } %>\
+					<% } %>\
+			  </ul>\
+			  <div class="list-line"></div>\
+			  <div class="odc-adress-area">\
+				<p>\
+				  将于<%=order.best_time%>送至<br>\
+				  北京市 <%=order.cityName%> <%=order.districtName%> <%=order.address%><br>\
+				  <%=order.consignee%>，<%=order.mobile%>\
+				</p>\
+				<p class="od-total"><%if(parseInt(order.formated_shipping_fee.replace("￥",""),10)>0){%>运费：<%=order.formated_shipping_fee%>元<br/><% } %>总计：<b><%=order.formated_total_fee%></b>元</p>\
+			  </div>\
+			</div>\
+			<em class="buy-line2"></em>\
+		  </div>\
+		  <div class="od-btn-area tl-c">\
+				<%if((order.pay_status==0||!order.pay_status)&&order.pay_id!=4&&order.order_status!=2){%>\
+							<%if(order.pay_name=="快钱") {%>\
+								<a href="#" class="btn status1-btn" onclick="document.forms[&quot;kqPay&quot;].submit();">付款</a>\
+								<div style="display:none"><%=order.pay_online.replace(/script/gi,"a")%></div>\
+							<%} else {%>\
+								<a href="#" id="pay_online" class="btn status1-btn">付款</a>\
+							<% } %>\
 				<% } %>\
-			<% } %>\
-			<li class="order-item">\
-              <div class="or-main-container">\
-                <span class="or-name">\
-					<span class="or-name-intro"><b>运费</b></span>\
-                </span>\
-                <span class="or-price"><%=order.formated_shipping_fee%></span>\
-              </div>\
-            </li>\
-          </ul>\
-          <div class="odc-adress-area">\
-            <p class="send-to">送至：</p>\
-            <p>\
-              <%=order.consignee%>，<%=order.mobile%><br>\
-              北京市 <%=order.cityName%> <%=order.districtName%> <%=order.address%><br>\
-              将于<b><%=order.best_time%></b> 送至\
-            </p>\
-          </div>\
-        </div>';
+				<%if(order.order_status==0&&order.pay_status!==2){%>\
+					<a href="#" class="btn" id="canel_order">取消订单</a>\
+				<% } %>\
+		   </div>';
+		
     var orderId = location.href.split('order_id=').pop();
 	var OrderDetail = {
 		render:function(){
@@ -114,7 +176,7 @@
 					
 					var cardmessage = order.card_message.split(';');
 					for(var i=0,j=0;i<goods.length;i++){
-						if(goods[i].goods_id!=60&&goods[i].goods_id!=61){
+						if(goods[i].goods_id!=FORK&&goods[i].goods_id!=CANDLE&&goods[i].goods_id!=NUM_CANDLE){
 							goods[i].card_message = cardmessage[j];
 							j++;
 						}
@@ -152,15 +214,16 @@
 					},function(d){
 						if(d.code == 0){
 							location.reload();
-							//location.href="route.php?mod=account&action=order_list";
 						}else{
 							require(['ui/confirm'],function(confirm){
-								new confirm("订单取消失败！可能是该订单已经确认，将不能取消");
+								new confirm("订单取消失败！可能是该订单已经确认，将不能取消，请联系客服");
 							});
 						}
 					},'json');
 				});
-			});
+				
+				});
+				return false;
 			});
 		}
 	}

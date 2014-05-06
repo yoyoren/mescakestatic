@@ -1,49 +1,33 @@
 define(['ui/dialog'],function(Dialog){
-	var body = '<dl class="global-form-container clearfix">\
-          <dt class="l-title">送货地址：</dt>\
-          <dd class="r-con clearfix">\
-			 <div class="check-container">\
-            <a href="javascript:void(0);" class="area-intro">\
-                北京市\
-                <em class="area-intro-ico"></em>\
-               <span class="ai-intro">目前仅针对北京开展送货业务，请见谅</span>\
-            </a>\
-            <br />\
-            <select id="region_sel_popup">\
+	var body = '<div>\
+          <a href="javascript:void(0);" class="area-intro space">\
+              北京市\
+              <em class="area-intro-ico"></em>\
+              <span class="ai-intro">北京市五环内免费送货，五环外不送货。</span>\
+          </a>\
+           <select id="region_sel_popup">\
               <option value="0">请选择区域</option>\
             </select>\
 			<select id="dis_district_popup" style="display:none">\
                 <option value="0">选择送货街道</option>\
-            </select>\
-              <span class="ct-commit" style="margin-left:0;">带*号区域需要加收10元送货费，不在列表中的地区暂时不能提供送货服务</span>\
-              <span class="error-tip" style="display:none">请选择一个送货区域</span>\
-			  </div>\
-			<br>\
-            <div class="check-container mart-10">\
-              <textarea class="text-area" placeholder="详细地址" id="new_address_popup"></textarea>\
-              <span class="tips-container" style="display:none">地址格式错误</span>\
-            </div>\
-          </dd>\
-          <dt class="l-title lh-input">收货人：</dt>\
-          <dd class="r-con clearfix">\
-            <div class="check-container">\
-              <input type="text" class="global-input" placeholder="收货人姓名" id="new_contact_popup">\
+            </select><span class="error-tip" style="display:none">请选择一个送货区域</span><br>\
+          <div class="check-container mart-10">\
+            <textarea class="text-area" placeholder="详细地址" id="new_address_popup"></textarea>\
+            <span class="tips-container" style="display:none">地址格式错误</span>\
+          </div>\
+          <div class="check-container">\
+            <input type="text" class="global-input" placeholder="收货人姓名" id="new_contact_popup">\
               <span class="tips-container" style="display:none">请填写收货人</span><!-- 错误信息容器,出现2秒后消失 -->\
-            </div>\
-          </dd>\
-          <dt class="l-title lh-input">联系手机：</dt>\
-          <dd class="r-con clearfix">\
-            <div class="check-container">\
-              <input type="text" class="global-input" placeholder="联系人的手机号码" id="new_tel_popup">\
+          </div>\
+          <div class="check-container">\
+            <input type="text" class="global-input" placeholder="联系人的手机号码" id="new_tel_popup">\
               <span class="tips-container" style="display:none">手机号码格式错误</span>\
-            </div>\
-          </dd>\
-          <dt class="l-title">&nbsp;</dt>\
-          <dd class="r-con clearfix">\
-             <input class="btn green-btn" type="button" value="保存" id="save_address_popup">\
-			  <input class="btn green-btn" type="button" value="修改" id="mod_address_popup">\
-              <input class="btn" type="button" value="取消" id="cancel_address_popup"">\
-          </dd></dl>'
+          </div>\
+          <div class="single-btn-area">\
+             <input class="btn status1-btn" type="button" value="保存" id="save_address_popup">\
+			 <input class="btn status1-btn" type="button" value="修改" id="mod_address_popup">\
+          </div>\
+        </div>';
 
 	var CURRENT_ID;
 	var single;
@@ -70,6 +54,7 @@ define(['ui/dialog'],function(Dialog){
 	}
 
 	//把表单当中的内容清理掉
+	var callback = function(){}
 	var clearForm  = function(){
 		var jqRegionSel = $('#region_sel_popup');
 		var jqDistrictSel = $('#dis_district_popup');
@@ -85,6 +70,7 @@ define(['ui/dialog'],function(Dialog){
 	var changemobile = {
 		
 		init:function(){
+
 			if(single){
 				single.show();
 			}else{
@@ -98,6 +84,7 @@ define(['ui/dialog'],function(Dialog){
 						onshow:function(d){
 							//修改和新增由不同的按钮来完成
 							if(d&&d.mod){
+								callback = d.callback||function(){};
 								CURRENT_ID = d.id;
 								$('#mod_address_popup').show();
 								$('#save_address_popup').hide();
@@ -116,9 +103,14 @@ define(['ui/dialog'],function(Dialog){
 								$('#mod_address_popup').hide();
 								$('#save_address_popup').show();
 							}
+					
+							$('#new_tel_popup').placeholder().trigger('focus');
+							$('#new_contact_popup').placeholder().trigger('focus');
+							$('#new_address_popup').placeholder().trigger('focus');
 						},
 						afterRender:function(){
 							//获得地址信息
+						
 							var jqRegionSel = $('#region_sel_popup');
 							var jqDistrictSel = $('#dis_district_popup');
 							var jqNewAddressInput = $('#new_address_popup');
@@ -221,7 +213,7 @@ define(['ui/dialog'],function(Dialog){
 								var address = jqNewAddressInput.val();
 								var tel = jqNewTelInput.val();
 								var contact = jqNewContactInput.val();
-								
+						
 								//表单验证失败
 								if(!vaildForm()){
 									return;
@@ -244,9 +236,13 @@ define(['ui/dialog'],function(Dialog){
 											var html = mstmpl(addressTmpl,{
 												data:[d.data]
 											});
-											$('#address_'+CURRENT_ID).replaceWith(html);
+											var jqAddressForm = $('#address_'+CURRENT_ID);
+											jqAddressForm.replaceWith(html);
 											single.hide();
 											clearForm();
+											setTimeout(function(){
+												callback(CURRENT_ID);
+											},0);
 	
 										}
 									}

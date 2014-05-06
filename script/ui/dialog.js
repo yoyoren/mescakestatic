@@ -6,21 +6,23 @@ define(function(){
 	//相当于id
 	var index = 0;
 	var jqWIN = $(window);
-	var _html = '<div id="dialog_<%=index%>" class="dialog" style="margin:0;display:none;z-index:<%=zIndex%>">\
+	var _html = '<div id="dialog_<%=index%>" class="dialog" style="width:<%=width%>px;margin:0;display:none;z-index:<%=zIndex%>">\
       <div class="dialog-head">\
         <%if(title){%><p class="dia-title"><%=title%></p><% } %>\
         <em class="close-ico" id="close_<%=index%>">X</em>\
       </div>\
-      <div class="dialog-con">\
-        <form action="">\
+      <div class="dialog-con" style="<%=textStyle%>">\
+        <div>\
 		   <p><%=body%></p>\
 			<%if(!bottom) {%>\
-				<input id="dialog_confirm_<%=index%>" class="v-btn green-btn" type="submit" value="确定">\
-				<input id="dialog_cancel_<%=index%>" class="v-btn" type="reset" value="取消">\
+				<div class="single-btn-area">\
+				<input id="dialog_confirm_<%=index%>" class="btn status1-btn" type="submit" value="确定">\
+				<input id="dialog_cancel_<%=index%>" class="btn" type="reset" value="取消">\
+				</div>\
 			<% } else {%>\
 				<%=bottom%>\
 			<% } %>\
-		</form>\
+		</div>\
       </div>\
     </div>';
 
@@ -35,7 +37,10 @@ define(function(){
 			body:opt.body||'',
 			bottom:opt.bottom||'',
 			index:_index,
-			zIndex:zIndex++
+			zIndex:zIndex++,
+			textStyle:opt.textStyle,
+			width:opt.width||'400',
+			notShow:opt.notShow
 		});
 		$('body').append(html);
 		$('body').append('<div class="gray-bg dialog_bg" style="z-index:100"></div>');
@@ -49,7 +54,11 @@ define(function(){
 		this.onshow = opt.onshow||function(){};
 		this.onclose = opt.onclose||function(){};
 		this.closeButton = $('#close_'+_index);
-		this.bind().show();
+		this.bind();
+		if(!opt.notShow){
+			this.show();
+		}
+		
 
 
 		///渲染后可以自己定义一些自定义事件
@@ -59,6 +68,9 @@ define(function(){
 	};
 
 	_dialog.prototype = {
+		setTitle:function(html){
+			this.el.find('.dia-title').html(html);
+		},
 		bind:function(){
 			var _self = this;
 			this.cancelButton&&this.cancelButton.click(function(){

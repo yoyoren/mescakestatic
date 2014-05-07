@@ -506,9 +506,16 @@ a.btn:hover{text-decoration: none;}
 .luck-light{color: #ff5c26;}
 
 /* 无糖提示 */
+/*
 .cake-tip-area{padding-left: 60px; background: url(img/tips-ico.png) 10px center no-repeat; _background: url(img/tips-ico.gif) 10px 0 no-repeat; width: 900px; 
   margin: 0 auto; position: absolute; top:164px; z-index: 1; left: 50%; margin-left: -480px; height: 26px;}
 .cake-tip-area p{color: #f0809d; font-size: 14px;}
+*/
+.cake-tip-area{background: #fefdf6; position: static; padding: 10px 0; border-bottom: 1px solid #ccc;}
+.cta-inner{width: 960px; margin: 0 auto; overflow: hidden;}
+.cta-inner p{width: 430px; float: left; padding-left: 50px; line-height: 40px; height: 40px; color:#333;}
+.cta-item1{background: url(img/tip-head-ico2.png) 0 0 no-repeat;}
+.cta-item2{background: url(img/tip-head-ico1.png) 0 0 no-repeat;}
 
 /* 底部 */
 .footer-area{background: #fff; padding: 20px 0 40px 0; zoom:1;}

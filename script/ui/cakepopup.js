@@ -34,6 +34,7 @@ define(['ui/dialog'],function(Dialog){
 						width:500,
 						onshow:function(d){
 							if(d){
+								debugger
 								if(window.GOODS_WEIGHT.indexOf('：')>-1){
 									var weight = window.GOODS_WEIGHT.split('：')[0];
 								}else{
@@ -45,15 +46,12 @@ define(['ui/dialog'],function(Dialog){
 								$('#pop_goods_price').html(price);
 								$('#pop_goods_weight').html(weight);
 								$('#popup_goods_image').attr('src','/themes/default/images/sgoods/'+window.GOODS_SN.substring(0,3)+'.jpg');
-								if(window.CAN_CUT){
-									$('#can_cut_frame').show();
-								}
 
 								if(window.NO_SUGAR){
 									$('#no_sugar_frame').show();
 								}
 								$('#cut_weight_display').html(weight);
-										if(d.cancut){
+										if(d.cancut&&window.CAN_CUT==1){
 											$('#can_cut_frame').show();
 											$('#popup_cut_num').html(d.cancut.attr_price);
 										}else{

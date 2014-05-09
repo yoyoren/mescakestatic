@@ -520,8 +520,8 @@ a.btn:hover{text-decoration: none;}
 /* 底部 */
 .footer-area{background: #fff; padding: 20px 0 40px 0; zoom:1;}
 .footer{width: 960px; margin: 0 auto; font-size: 12px;}
-.foo-l{width: 300px;}
-.foo-r{width: 660px; text-align: right; color: #858585;}
+.foo-l{width: 170px;}
+.foo-r{width: 780px; text-align: right; color: #858585;}
 .f-contact{color:#858585; margin: 0 10px;}
 .WB_FB_show,
 .copyright{display:inline-block; *display: inline; *zoom:1; vertical-align: middle; }

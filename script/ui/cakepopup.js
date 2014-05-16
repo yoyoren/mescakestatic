@@ -34,7 +34,6 @@ define(['ui/dialog'],function(Dialog){
 						width:500,
 						onshow:function(d){
 							if(d){
-								debugger
 								if(window.GOODS_WEIGHT.indexOf('：')>-1){
 									var weight = window.GOODS_WEIGHT.split('：')[0];
 								}else{

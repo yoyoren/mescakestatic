@@ -1,0 +1,23 @@
+.dialog{width: 300px; margin-left: -150px;  top:20px;/* !important*/ box-shadow: none; border: 0 none;}
+.close-ico{display: none;}
+  .dialog-con{padding: 0 10px 10px 10px}
+  .dialog .text-area, .dialog .global-input{width: 258px;}
+  .dialog input.long-btn{width: 280px;}
+  .dialog .long-btn{width: 198px;}
+
+  .cts-img-item{width: 200px;}
+
+.cca-item{height: 100px;}
+  .cca-item .radiobox-item{margin:40px 4px 0 4px;}
+  .cca-intro {margin: 30px 4px 0 0; font-size: 12px;}
+  .cca-img-area{margin: 0; width: 100px;}
+  .big-candle{width: 60px; height: auto; vertical-align: middle;}
+  .candle-item{width: 30px;}
+  .for4 .candle-item,
+  .more-than4 .candle-item{width: 22px;}
+  .more-than4{line-height: 40px; height: 90px; padding-top: 10px;}
+  .cca-func-area{margin-top: 20px;}
+
+/* 这两个后面要写入模板里面 */
+  .recharge-area input{width: 40px !important;}
+  .slide-code-btn{width: 158px !important; }

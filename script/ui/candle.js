@@ -23,7 +23,7 @@ define(['ui/dialog'],function(Dialog){
 					  </div>\
 					  <div class="cca-func-area fl-l">\
 						<p>请输入你要的数字</p>\
-						<input type="text" class="global-input" style="width:70px;" placeholder="520" id="candle_number_input">\
+						<input type="text" class="global-input" style="width:70px;" id="candle_number_input">\
 					  </div>\
 					</div>\
 				  </div>\
@@ -87,8 +87,9 @@ define(['ui/dialog'],function(Dialog){
 							var candleId = NORMAL_CANDLE;
 							var jqInput = $('#candle_number_input');
 							
-							jqInput.placeholder().val('');
-							$('#num_candle_input').placeholder().val('');
+							// jqInput.placeholder().val('');
+							// $('#num_candle_input').placeholder().val('');
+							//经测试要去掉placeholder这个属性才能有效，上面的无效。在chrome下测试。所以在模板里面去掉了place
 							$('#num_candle_input').keydown(function(e){
 								var cantype = false; 
 						
@@ -157,6 +158,9 @@ define(['ui/dialog'],function(Dialog){
 								if(candleId == NORMAL_CANDLE){
 									
 									var candleNum = $('#num_candle_input').val();
+									if(candleNum.length<1){
+										return false;
+									}
 									candleNum = parseInt(candleNum,10);
 									if(candleNum&&!isNaN(candleNum)){
 										brithCard.addOne(NORMAL_CANDLE,rec_id,0,candleNum);

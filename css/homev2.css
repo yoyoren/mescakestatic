@@ -61,6 +61,11 @@ a:hover .nav-con{ color: #fff; background: #000;}
 a.current .ico-item,
 a.hover .ico-item,
 a:hover .ico-item{visibility: hidden;}
+.loading{background: #fff url(img/loading1.gif) center center no-repeat;}
+.loading2{background: #fff url(img/loading2.gif) center center no-repeat;}
+.loading22{background: #fff url(img/loading22.gif) center center no-repeat;}
+.loading3{background: #fff url(img/loading-s.gif) center center no-repeat;}
+.loading4{background: #fff url(http://gtms02.alicdn.com/tps/i2/T1pOySFxxcXXbHygfc-30-30.gif) center center no-repeat;}
 
 .nav-home,
 .nav-cake,
@@ -99,10 +104,10 @@ _background: url(img/icosprites8.png) -101px 0px no-repeat;
 
   .slider-num{width: 960px; margin: 0 auto; top: -70px; position: relative; z-index: 10;}
   .slider-num-ico{display: inline-block; *display: inline; *zoom:1;
-    width: 10px; height: 10px; background: url(img/sli-num-ico1.png) 0 0 no-repeat; _background: url(img/sli-num-ico18.png) 0 0 no-repeat; overflow: hidden; margin: 0 6px;
+    width: 10px; height: 10px; background: url(img/sli-num-ico18.png) 0 0 no-repeat; overflow: hidden; margin: 0 6px;
   }
   .slider-num-ico:hover,
-  .sn-current{background: url(img/sli-num-ico2.png) 0 0 no-repeat; _background: url(img/sli-num-ico28.png) 0 0 no-repeat;}
+  .sn-current{background: url(img/sli-num-ico28.png) 0 0 no-repeat;}
   .theme-area{position: relative; height: 616px;}
   .ta-item2{position: absolute; right: 0; top:0; }
   .ta-item4{position: absolute; right: 0; top:308px; }
@@ -173,9 +178,7 @@ background: url(img/write-mes.png) 0 0 no-repeat; vertical-align: middle; margin
 
 /* 全局按钮 */
 .btn{padding: 0 20px; margin-right:10px; height: 30px; line-height:30px; font-size:12px; color:#616161; background:none; border:0 none; text-align:center; border: 1px solid #d8d7d7; background: #e4e4e4; border-radius: 4px;
-  display: inline-block; *display: inline; *zoom:1;
--webkit-appearance: none; -moz-appearance: none; appearance: none;
-}
+  display: inline-block; *display: inline; *zoom:1; -webkit-appearance: none; -moz-appearance: none; appearance: none;}
 .big-btn{height: 38px; line-height: 38px; font-size: 16px; border-radius: 6px;}
 input.big-btn{height: 40px;}
 .status1-btn{background: #d11c08; border: 1px solid #b31807; color: #fff;}
@@ -301,12 +304,6 @@ a.btn:hover{text-decoration: none;}
 .or-plus{background: url(img/num-a.png) 0 0 no-repeat;}
 .or-minus{background: url(img/num-s.png) 0 0 no-repeat;}
 .or-handle{background: url(img/t-del-ico.png) 0 0 no-repeat;}
-/* 这部分为了支持ie6 后来不做了 */
-/*
-.od-title4{width: 16%;}
-.or-handle{height:10px; overflow:hidden; margin-top:40px; float: right; display: none;}
-.od-ul .hover .or-handle{display: block;}
-.od-ul li:hover .or-handle{display: block;}*/
 .or-handle{position: absolute; right: 10px; top:34px; line-height: 100px; overflow: hidden; display: none;}
 .od-ul li:hover .or-handle{display: block;}
 
@@ -359,9 +356,9 @@ a.btn:hover{text-decoration: none;}
 
 
 .global-input,
-.text-area{border:0 none; background: none; padding: 10px 0; color: #333; 
--webkit-appearance: none; -moz-appearance: none; appearance: none;
-  display: inline-block; *display: inline; *zoom:1;}
+.text-area{border:0 none; background: none; padding: 10px 0; color: #333; display: inline-block; *display: inline; *zoom:1;
+ -webkit-appearance: none; -moz-appearance: none; appearance: none;
+}
 .global-input{height: 22px; line-height: 22px;  width: 240px; margin-bottom: 20px;}
 .text-area{height: 60px; line-height: 18px; width: 240px; margin-bottom: 20px;} 
 .has-bor-input:focus{box-shadow: inset 0 0 8px #eaeaea;}
@@ -510,11 +507,9 @@ a.btn:hover{text-decoration: none;}
 .luck-light{color: #ff5c26;}
 
 /* 无糖提示 */
-/*
-.cake-tip-area{padding-left: 60px; background: url(img/tips-ico.png) 10px center no-repeat; _background: url(img/tips-ico.gif) 10px 0 no-repeat; width: 900px; 
+/*.cake-tip-area{padding-left: 60px; background: url(img/tips-ico.png) 10px center no-repeat; _background: url(img/tips-ico.gif) 10px 0 no-repeat; width: 900px; 
   margin: 0 auto; position: absolute; top:164px; z-index: 1; left: 50%; margin-left: -480px; height: 26px;}
-.cake-tip-area p{color: #f0809d; font-size: 14px;}
-*/
+.cake-tip-area p{color: #f0809d; font-size: 14px;}*/
 .cake-tip-area{background: #fefdf6; position: static; padding: 10px 0; border-bottom: 1px solid #ccc;}
 .cta-inner{width: 960px; margin: 0 auto; overflow: hidden;}
 .cta-inner p{width: 430px; float: left; padding-left: 50px; line-height: 40px; height: 40px; color:#333;}

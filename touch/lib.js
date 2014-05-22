@@ -1,0 +1,33 @@
+(function(){
+	
+	M = window.M||{};
+    M.mainDomain = 'http://www.mescake.com/'
+	M.ajax = function(method,url,param,callback){
+		var proxyFrame = $('#proxy_frame');
+		if(!proxyFrame.length){
+			
+			var proxyFrame = document.createElement('iframe');
+			proxyFrame.onload = function(){
+				proxyFrame.contentWindow.$.get(M.mainDomain+url,param||{},function(d){
+					callback(d);
+				},'json');
+			}
+			proxyFrame.src = 'http://www.mescake.com/proxy.php';
+			proxyFrame.border = 0;
+			proxyFrame.width = 1;
+			proxyFrame.height = 1;
+			$('body').append(proxyFrame);
+		}else{
+			proxyFrame[0].contentWindow.$.get(M.mainDomain+url,param||{},function(d){
+				callback(d);
+			},'json');
+		}
+	}
+	M.get=function(url,param,callback){
+		M.ajax('get',url,param,callback);
+	}
+
+	M.post=function(url,param,callback){
+		M.ajax('post',url,param,callback);
+	}
+})()

@@ -13,7 +13,7 @@
 			
 			var proxyFrame = document.createElement('iframe');
 			proxyFrame.onload = function(){
-				proxyFrame.contentWindow.$.get(M.mainDomain+url,param||{},function(d){
+				proxyFrame.contentWindow.$[method](M.mainDomain+url,param||{},function(d){
 					callback(d);
 				},'json');
 			}
@@ -23,7 +23,7 @@
 			proxyFrame.height = 1;
 			$('body').append(proxyFrame);
 		}else{
-			proxyFrame[0].contentWindow.$.get(M.mainDomain+url,param||{},function(d){
+			proxyFrame[0].contentWindow.$[method](M.mainDomain+url,param||{},function(d){
 				callback(d);
 			},'json');
 		}

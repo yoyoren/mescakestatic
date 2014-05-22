@@ -1,7 +1,12 @@
 (function(){
 	
 	M = window.M||{};
-    M.mainDomain = 'http://www.mescake.com/'
+    M.mainDomain = 'http://www.mescake.com/';
+	M.touchDomain = 'http://touch.mescake.com/';
+	if(location.host =='test.mescake.com'){
+		M.mainDomain = 'http://test.mescake.com/';
+		M.touchDomain = 'http://touch.n.mescake.com/';
+	}
 	M.ajax = function(method,url,param,callback){
 		var proxyFrame = $('#proxy_frame');
 		if(!proxyFrame.length){
@@ -12,7 +17,7 @@
 					callback(d);
 				},'json');
 			}
-			proxyFrame.src = 'http://www.mescake.com/proxy.php';
+			proxyFrame.src = M.mainDomain+'proxy.php';
 			proxyFrame.border = 0;
 			proxyFrame.width = 1;
 			proxyFrame.height = 1;

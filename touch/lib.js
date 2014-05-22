@@ -3,7 +3,7 @@
 	M = window.M||{};
     M.mainDomain = 'http://www.mescake.com/';
 	M.touchDomain = 'http://touch.mescake.com/';
-	if(location.host =='test.mescake.com'){
+	if(location.host =='touch.n.mescake.com'){
 		M.mainDomain = 'http://test.mescake.com/';
 		M.touchDomain = 'http://touch.n.mescake.com/';
 	}

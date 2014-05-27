@@ -1,12 +1,12 @@
 (function(){
   var tmpl = '<%for(var i=0;i<data.length;i++) {%>\
-			  <div class="content">\
+			  <div class="content" id="orderitem_<%=data[i].order_id%>">\
 				<p class="oli-tip"><span class="fl-l">订单号:<%=data[i].order_sn%></span><span class="fl-r">时间:<%=data[i].best_time.split(" ")[0]%></span></p>\
 				<div class="od-list-item order_item" data-id="<%=data[i].order_id%>">\
 				  <div class="oli-img-item">\
 					<%if(data[i].showStaff) {%>\
 												<%if(data[i].showStaff.goods_id == CAT_CAKE) {%>\
-												<img src="css/img/cat-little.jpg" >\
+												<img src="'+M.staticDomain+'css/img/cat-little.jpg" >\
 												<% } else {%>\
 												<img src="'+M.mainDomain+'themes/default/images/sgoods/<%=data[i].showStaff.goods_sn.substring(0,3)%>.jpg" >\
 												<% } %>\
@@ -47,7 +47,7 @@
 							<% } %>\
 						<% } %>\
 					   <%if(data[i].order_status==0&&data[i].pay_status!==2){%>\
-						<a href="#" class="oli-cancel">取消订单</a>\
+						<a href="#" class="oli-cancel cancel_order" data-id="<%=data[i].order_id%>">取消订单</a>\
 				       <%}%>\
 					</div>\
 				  </div>\
@@ -82,4 +82,36 @@
 		var id = $(this).data('id');
 		location.href = '/orderdetail?id='+id;
 	});
+
+	$('body').delegate('.cancel_order','click',function(){
+			var _jqThis = $(this);
+			var _id = $(this).data('id');
+			M.confirm('确认取消该订单吗？取消后将无法恢复！',function(){
+				M.post('route.php?action=del_one_order&mod=account',{
+						'order_id':_id
+					},function(d){
+						if(d.code == 0){
+							$('#orderitem_'+_id).remove();
+							_jqThis.hide();
+						}else{
+							M.confirm("订单取消失败！可能是该订单已经确认，将不能取消");
+						}
+					});
+			});
+			return false;
+		}).delegate('.pay_order','click',function(){
+			var _this = $(this);
+			var payUrl =_this.attr('href');
+			if(payUrl=='#'&&_this.data('type')=='kuaiqian'){
+				$('#pay_form_'+_this.data('id')).find('form')[0].submit();
+
+			}else{
+				var f = window.open(payUrl);
+				if(f==null){
+					M.confirm("您的浏览器启用拦截支付宝弹出窗口过滤功能！\n\n请暂时先关闭此功能以完成支付！");
+				}
+			}
+
+			return false;
+		});
   })();

@@ -1,4 +1,20 @@
 (function(){
+	var eventBind = function(){
+		$('#canel_order').click(function(){
+					M.confirm('确认取消该订单吗？取消后将无法恢复！',function(){
+						M.post('route.php?action=del_one_order&mod=account',{
+							'order_id':window.orderId
+						},function(d){
+							if(d.code == 0){
+								location.reload();
+							}else{
+								M.confirm("订单取消失败！可能是该订单已经确认，将不能取消，请联系客服");
+							}
+						});
+					});
+					return false;
+		});
+	}
 	M.get('route.php?action=get_user_order_detail&mod=account',{
 		order_id:window.orderId
 	},function(d){
@@ -86,6 +102,7 @@
 			order:d.order
 		});
 		$('#container').after(html);
+		eventBind();
 		M.loadingEnd();
 	});
  })();

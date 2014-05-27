@@ -21,7 +21,7 @@ $('#my_order_frame').show();
 											<% } %>\
 										</a>\
 									</span>\
-											<%=data[i].showText%>\
+									<%=data[i].showText%>\
 								</div>\
 								<div class="ol-title4"><%=parseFloat(data[i].order_amount,10)%>元</div>\
 								<div class="ol-title5">\
@@ -97,6 +97,7 @@ $('#my_order_frame').show();
 			
 				var html = mstmpl(orderListTmpl,{data:data});
 				$('#order_title').after(html);
+				
 			}
 		});
 	},

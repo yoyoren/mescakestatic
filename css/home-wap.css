@@ -354,7 +354,7 @@ a.btn:hover{text-decoration: none;}
   .pro-list-item{width: 415px; float: left; height: 350px; padding: 30px 0 50px 0;}
   .pro-list-item h5{font-size: 20px; padding-bottom:4px; font-weight: normal; *font-weight: bold;}
   .pro-list-item p{font-size: 12px; color: #575757; line-height: 1.5; padding-bottom: 30px; height: 36px;}
-  .pro-list-item img{display: block; margin-left: -13px; position: relative; z-index: 1;}
+  .pro-list-item img{display: block; margin-left: -13px;}
   .pro-more{background: #f5eccd; display: inline-block; *display: inline; *zoom:1; padding: 6px 20px; color: #9f723d; border-radius: 20px; margin: 40px 0;}
   .pro-more a{color: #9f723d;}
   .pro-more a:hover{text-decoration: none;}
@@ -611,6 +611,31 @@ display: inline-block;
 /* 订单详情 */
 .address-con p{padding: 0 10px 0 80px; position: relative;}
 .address-con em{position: absolute; left: 10px; top:0;}
+
+/* 小弹窗及增减按钮 */
+.little-dialog{width: 200px; min-height: 100px; padding: 10px; background: #fff; border-radius: 6px; position: absolute; top:50%; left: 50%; margin-left: -110px; box-shadow: 0 0 2px #333;}
+.ld-btn-area{text-align: center;}
+.little-dialog .global-input {
+border: 1px solid #e5e5e5;
+border-radius: 3px;
+background: #fff;
+padding: 4px 10px;}
+.ld-title{text-align: center; color: #ff7e00; font-size: 14px; font-weight: bold; margin-bottom: 10px;}
+.add-ico,
+.minus-ico{width: 20px; height: 20px; display: inline-block; vertical-align: middle;}
+.add-ico{background: url(img/iconfont-add.png) 0 0 no-repeat; background-size: 20px 20px;}
+.minus-ico{background: url(img/iconfont-jian.png) 0 0 no-repeat; background-size: 20px 20px;}
+
+.num-input{border: 1px solid #ccc; height: 16px; line-height: 16px; padding: 4px 0; margin-bottom: 0; text-align: center; color: #333;}
+.minus-ico-me,
+.add-ico-me{display: inline-block; width: 24px; height: 24px; line-height:24px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-size: 16px; vertical-align: middle;}
+.add-ico-me{color: #f00;}
+
+/* 添加地址 */
+.wap-add-adress{padding:0 10px;}
+.wap-add-adress .check-container{width: 100%;}
+.wap-add-adress .global-input{box-sizing:border-box; width: 100%; height: 44px; line-height: 22px; margin-bottom: 10px;}
+.wap-add-adress .wap-check-tip{margin-bottom: 10px;}
 
 .scroll-area{display:block;height:100%;overflow:scroll; box-sizing:border-box; padding: 40px 0;}
   body{width:100%;height:100%;overflow:hidden}

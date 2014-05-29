@@ -35,6 +35,6 @@
 		if(d.code == 0){
 			$('#moblie_number').html(d.msg);
 		}
-	},'json')
+	},'json');
 
 })();

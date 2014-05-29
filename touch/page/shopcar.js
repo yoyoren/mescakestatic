@@ -16,14 +16,19 @@
 	M.get('route.php?mod=order&action=get_order_list',{},function(d){
 	  var html = M.mstmpl(tmpl,{data:d.goods_list});
 	  var count = d.goods_list.length;
+	  if(count == 0){
+				location.href = M.touchDomain+'shopcarempty';
+				return;
+	  }
 	  $('#staff_count').html(count);
 	  $('#order_price').after(html).html(d.order_total.amount_formated);
 	  $('#total_price').html(d.order_total.amount_formated);
+	  M.loadingEnd();
 	});
 	var container = $('body');
-	var updateTotalPriceDisplay = function (d){
+	window.updateTotalPriceDisplay = function (d){
 			if(d.order_total == false){
-				location.href = '/orderempty';
+				location.href = M.touchDomain+'shopcarempty';
 				return;
 			}
 			d = d.order_total;

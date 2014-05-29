@@ -1,7 +1,8 @@
   (function(){
+	   var CURRENT_ADDRESS_ID;
        var address_container = $('#address_container');
 	   var addressTmpl = '<%for(var i=0;i<data.length;i++){%>\
-						<div class="ama-item address_item <%if(i==0){%>ama-item-current<%}%>" id="address_<%=data[i].address_id%>"\
+						<div <%if(i>0){%>style="display:none"<%}%>class="ama-item address_item <%if(i==0){%>ama-item-current<%}%>" id="address_<%=data[i].address_id%>"\
 							data-id="<%=data[i].address_id%>"\
 							data-address="<%=data[i].address%>"\
 							data-tel="<%=data[i].mobile%>"\
@@ -20,16 +21,68 @@
 							<a href="#" class="ama-delete fl-r addr_del" data-id="<%=data[i].address_id%>">删除</a>\
 						  </div>\
 						</div>\
-						<% }　%>'
-	
-  M.get('route.php?mod=order&action=get_order_address', {}, function(d) {
-    var html = M.mstmpl(addressTmpl, {
-      data : d
-    });
-    address_container.html(html);
-  });
+						<% }　%>';
+  M.checklogin(function(isLogin){
+  if(isLogin){
+	  window.IS_LOGIN = true;
+	  M.get('route.php?mod=order&action=get_order_address', {}, function(d) {
+		var html = M.mstmpl(addressTmpl, {
+		  data : d
+		});
+		if(d.length){
+			CURRENT_ADDRESS_ID = d[0].address_id;
+		}
 
-  var CURRENT_ADDRESS_ID;
+		if(d.length>1){
+			$('#more_address_btn').show().click(function(){
+				$('.address_item').show();
+				$('#more_address_btn').hide();
+			});
+		}
+		$('#new_address_btn').show().click(function(){
+			location.href = '/newaddress';
+		});
+		
+		address_container.html(html);
+	  });
+	  }else{
+		$('#new_address_container').show();
+		
+	  }
+  });	
+  
+ var payLock = false;
+  $('body').delegate('.pay_container','click',function(){
+	if(payLock){
+		return;
+	}
+	payLock = true;
+	var _this = $(this);
+	var payId = _this.data('id');
+	_this.find('input').attr('checked',true);
+	$('#pay_id').val(payId);
+	setTimeout(function(){
+		payLock = false;
+	},20);
+
+  })
+  //地址选择
+
+  var ifAddressNeedFee = function(){
+		M.get('route.php?mod=order&action=if_address_need_fee',{
+				 'address_id':CURRENT_ADDRESS_ID
+		},function(d){
+			if(d.code == 0){
+						if(parseInt(d.fee)){
+							jq.shipping_fee_display.show();
+						}else{
+							jq.shipping_fee_display.hide();
+						}
+						jq.shipping_fee.val(d.fee);
+						updateTotalPriceDisplay(d);
+					} 	 
+		});				
+  }
   address_container.delegate('.address_item', 'click', function() {
 
     var _this = $(this);
@@ -40,7 +93,7 @@
     CURRENT_ADDRESS_ID = _this.data('id');
 
     //计算一个地址是否需要运送费
-    me.ifAddressNeedFee();
+    ifAddressNeedFee();
 
   }).delegate('.addr_del', 'click', function() {
     //delete an address info if you want
@@ -83,12 +136,14 @@
           JQ.address_container.find('.address_item').removeClass('ama-item-current');
           CURRENT_ADDRESS_ID = id;
           $('#address_' + id).addClass('ama-item-current');
-          me.ifAddressNeedFee();
+          ifAddressNeedFee();
         }
       });
     });
     return false;
   });
+
+  //日期选择
   var time = (new Date(server_date * 1));
   var year = time.getFullYear();
   var month = time.getMonth() + 1;
@@ -104,7 +159,10 @@
     hour_sel : $('#hour_sel'),
     minute_sel : $('#minute_sel'),
     region_sel : $('#region_sel'),
-    dis_district:$('#district_sel')
+    dis_district:$('#district_sel'),
+	message_input:$('#message_input'),
+	shipping_fee_display:$('#shipping_fee_display'),
+	shipping_fee:$('#shipping_fee')
   }
   var getSelDate = function() {
     return jq.year_sel.val() + '-' + jq.month_sel.val() + '-' + jq.day_sel.val();
@@ -163,10 +221,11 @@
     var selDate = getSelDate();
     var currentDate = getCurDate();
     var currHour = hour;
-    var currTime = server_date;
+    var currTime = (new Date(currentDate)).getTime();
     var selTime = (new Date(selDate)).getTime();
     var _html = '<option value="0">小时</option>';
-    jq.minute_sel.show();
+    jq.minute_sel.parent().show();
+	jq.hour_sel.parent().css({'width':'26%'});
     if (window.HAS_BIG_STAFF || window.HAS_NO_SUGAR_STAFF) {
       if (selTime - currTime > 3600 * 1000 * 24) {
         for (var i = 14; i <= 22; i++) {
@@ -179,7 +238,8 @@
           _html = ('<option value="0">大于5磅蛋糕制作需要24小时，所选择日期不能送货</option>');
         }
 
-        jq.minute_sel.hide();
+        jq.minute_sel.parent().hide();
+		jq.hour_sel.parent().css({'width':'90%'});
       }
     } else {
       //10点以后了 选择第二天的订单 只能是14点之后的
@@ -198,7 +258,8 @@
           }
           if (hour > endHour) {
             renderHour(beginHour, endHour, '制作需要5小时，今天已不能送货');
-            jq.minute_sel.hide();
+            jq.minute_sel.parent().hide();
+			jq.hour_sel.parent().css({'width':'90%'});
           } else if (hour < beginHour) {
             renderHour(beginHour, endHour);
           } else {
@@ -229,8 +290,7 @@
       renderMinute(3);
     }
   }
-  renderMonth(month);
-  renderDay(day);
+  
 
   jq.year_sel.change(function() {
     var monthHtml = '';
@@ -262,6 +322,9 @@
   jq.hour_sel.change(function() {
     calMinutes();
   });
+
+  renderMonth(month);
+  renderDay(day);
   calTime();
   calMinutes();
   $('.date-select').find('select').change(function() {
@@ -298,9 +361,7 @@
     _this.prev().html(val + prefix);
   });
 
-  $('#done_button').click(function() {
-
-  });
+  
 
   jq.region_sel.change(function() {
 
@@ -334,6 +395,25 @@
       }
     }); 
   });
+
+
+  jq.dis_district.change(function(){
+				M.get('route.php?mod=order&action=shipping_fee_cal',{
+						city:jq.region_sel.val().split('_')[0],
+						district:$(this).val().split('_')[0]
+					},function(d){
+						//没有登录的情况下 这里才需要重新结算运费
+						if(d.code == 0&&!window.IS_LOGIN){
+							if(d.fee!=0){
+								jq.shipping_fee_display.show();
+							}else{
+								jq.shipping_fee_display.hide();
+							}
+							jq.shipping_fee.val(d.fee);
+							updateTotalPriceDisplay(d);
+						}
+					});
+			});
   
   M.get('route.php?mod=order&action=get_region', {}, function(d) {
     var html = '';
@@ -344,29 +424,69 @@
       html += '<option value="' + d[i].region_id + '_' + d[i].region_name + '">' + d[i].region_name + '</option>'
     }
     jq.region_sel.append(html);
-  }); 
+  });
+  
+
+
+  //提交相关
+  var checkout =  function(){
+			//直接提交数据到订购表单
+			M.post('route.php?mod=order&action=checkout',{
+					card_message:'',
+					vaild_code:''
+				},function(d){
+					var jqInput = jq.message_input;
+					$('#leaving_message').val(jqInput.val());
+					if(d.code == 0){
+					   $('#submit_form').submit();
+					}else {
+						submitFail();
+					}
+			});
+				
+  }
   var vaildDate = function(){
-    
+    if(!getSelDate()){
+				return false;
+			}
+			
+			var hour = jq.hour_sel.val();
+			if(hour>22||hour<10){
+				return false;
+			}
+			
+
+			var minute = jq.minute_sel.val();
+			if(minute!=0&&minute!=30){
+				return false;
+			}
+			return true;
   }
   var submitFail = function(){
-    
+    M.loadingEnd();
   }
-  
+
   var saveconsignee = function(_this) {
     var me = this;
-    var data;
-    data = {
-        address_id : _this.data('id'),
-        consignee : _this.data('contact'),
+    var addressObj;
+	if(CURRENT_ADDRESS_ID){
+	   addressObj = $('#address_'+CURRENT_ADDRESS_ID);
+	}
+
+    var data = {
+		address_id:CURRENT_ADDRESS_ID||0,
+        consignee :addressObj?addressObj.data('contact'):$('#new_contact').val(),
         country : 441,
-        city : _this.data('city'),
-        address : _this.data('address'),
-        district : _this.data('district'),
-        mobile : _this.data('tel'),
-        bdate : jq.date_picker.val(),
-        hour : jq.hour_picker.val(),
-        minute : jq.minute_picker.val(),
-        message_input : jq.message_input.val().substring(0, 140)
+        city : addressObj?addressObj.data('city'):jq.region_sel.val().split('_')[0],
+        address : addressObj?addressObj.data('address'):$('#new_address').val(),
+        district : addressObj?addressObj.data('district'):jq.dis_district.val(),
+        mobile : addressObj?addressObj.data('tel'):$('#new_tel').val(),
+        bdate : getSelDate(),
+        hour : jq.hour_sel.val(),
+        minute : jq.minute_sel.val(),
+        message_input : jq.message_input.val().substring(0, 140),
+		inv_payee:'',
+		inv_content:''
       };
 
 
@@ -378,82 +498,52 @@
 
     M.loading();
     //保存订单
-    MES.post({
-      action : 'save_consignee',
-      mod : 'order',
-      param : data || {},
-      callback : function(d) {
-        if (d.msg == 'time error') {
+    M.post('route.php?action=save_consignee&mod=order',data || {},function(d){
+		if (d.msg == 'time error') {
             M.confirm('您所选择的送货时间距离制作时间少于5小时，请重新选择!');
-          
         }
 
-        if (d.code != 0) {
+		if (d.code != 0) {
           M.confirm('您所填写的收货信息不完善，您可以尝试重新填写后再提交');
           submitFail();
           return;
         }
-        if (window.IS_LOGIN) {
+
+		if (window.IS_LOGIN) {
            checkout();
-        } else {
-          //检查没有登录的用户手机号码是否被注册了
-          var username = JQ.new_tel.val();
-          if ($('#serect_checkbox')[0].checked) {
-            username = JQ.my_phone_input.val();
-          }
-          if (!MES.IS_MOBILE(username)) {
-            MES.inputError('new_tel_error');
+        }else{
+		  var username = $('#new_tel').val();
+          if (!M.IS_MOBILE(username)) {
+            M.inputError('new_tel_error');
             return;
           }
-          MES.get({
-            mod : 'account',
-            action : 'check_user_exsit',
-            param : {
-              username : username
-            },
-            callback : function(d) {
-              //用户已经存在于数据库中
-              if (d.exsit) {
-                require(['ui/confirm'], function(confirm) {
-                  var _confirm = new confirm('您所使用的手机号已经被注册，请登录后再继续订购', function() {
-                    _confirm.close();
-                    require(["ui/login"], function(login) {
-                      login.show();
-                    });
-                  });
-                });
 
-                me._submitFail();
-              } else {
+		  M.get('route.php?action=check_user_exsit&mod=account',{username : username},function(d){
+			  if (d.exsit) {
+				  M.confirm('您所使用的手机号已经被注册，请登录后再继续订购', function() {
+					location.href = '/login';
+				  });
+                  submitFail();
+              }else{
+			    var username = data.mobile;
+				M.post('route.php?action=auto_register&mod=account',{username:username},function(d){
+					if(d.code == 0){
+						//注册成功后给这个用户结帐
+						setTimeout(function(){
+							checkout();
+						},100);
+					}else{
+						submitFail();
+					}
+				});
+			  }
+		  });
+		}
 
-                //给这个用户注册一个账户 并且帮他登录
-                var username = data.mobile;
-                if (data.serect) {
-                  username = data.myphone;
-                }
-                MES.post({
-                  mod : 'account',
-                  action : 'auto_register',
-                  param : {
-                    username : username
-                  },
-                  callback : function(d) {
-                    if (d.code == 0) {
-                      //注册成功后给这个用户结帐
-                      setTimeout(function() {
-                        me.checkout();
-                      }, 100);
-                    } else {
-                      me._submitFail();
-                    }
-                  }
-                });
-              }
-            }
-          });
-        }
-      }
-    });
+	});
   }
 
+  $('#done_button').click(function() {
+	saveconsignee();
+  });
  })(); 

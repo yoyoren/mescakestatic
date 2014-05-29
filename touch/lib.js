@@ -87,6 +87,12 @@
 			callback&&callback();
 		});
     }
+
+	M.getShopcarGoodsNum = function(callback){
+		M.get('route.php?mod=account&action=get_order_count_by_sid',{},function(d){
+			callback&&callback(d.count);
+		});
+	}
    var dialogIndex=0;
    M.confirm = function(text,onconfirm,oncancel){
 	dialogIndex++;

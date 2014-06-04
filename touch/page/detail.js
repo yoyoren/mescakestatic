@@ -85,7 +85,7 @@
 		});
 		$('#container').append(html);
 		var tmpl2 = '<div class="wap-total-btn-area tl-c">\
-						<p>总<%=order.formated_total_fee%>计元<%if(parseInt(order.formated_shipping_fee.replace("￥",""),10)>0){%>（含运费：<%=order.formated_shipping_fee%>元）<br/><% } %><p/>\
+						<p>总计<%=order.formated_total_fee%>元<%if(parseInt(order.formated_shipping_fee.replace("￥",""),10)>0){%>（含运费：<%=order.formated_shipping_fee%>元）<br/><% } %><p/>\
 						<%if((order.pay_status==0||!order.pay_status)&&order.pay_id!=4&&order.order_status!=2){%>\
 							<%if(order.pay_name=="快钱") {%>\
 								<a href="#" class="btn status1-btn" onclick="document.forms[&quot;kqPay&quot;].submit();">付款</a>\

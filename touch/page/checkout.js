@@ -17,7 +17,7 @@
 							<span class="address"><%=data[i].address%></span>\
 						  </p>\
 						  <div class="clearfix handle-area">\
-							<a href="#" class="ama-edit fl-l addr_edit" data-id="<%=data[i].address_id%>">修改</a>\
+							<a href="#" class="ama-edit fl-l addr_edit hide" data-id="<%=data[i].address_id%>">修改</a>\
 							<a href="#" class="ama-delete fl-r addr_del" data-id="<%=data[i].address_id%>">删除</a>\
 						  </div>\
 						</div>\
@@ -59,7 +59,7 @@
 	payLock = true;
 	var _this = $(this);
 	var payId = _this.data('id');
-	_this.find('input').attr('checked',true);
+	_this.find('em').trigger('click');
 	$('#pay_id').val(payId);
 	setTimeout(function(){
 		payLock = false;
@@ -416,7 +416,7 @@
 			});
   
   M.get('route.php?mod=order&action=get_region', {}, function(d) {
-    var html = '';
+    var html = '<option value="0">选择地区</option>';
     for (var i = 0; i < d.length; i++) {
       if (d[i].region_id == 571 || d[i].region_id == 572) {
         d[i].region_name += '*';
@@ -465,13 +465,63 @@
   var submitFail = function(){
     M.loadingEnd();
   }
+  
+  var inputVaildError = function(jqObj,t){
+	  var _p =jqObj.parent();
+	  _p.addClass('animated flash');
+	  jqObj.addClass('error-border');
+	  $('#scroll_container').scrollTop(t);
+	  _p[0].addEventListener('webkitAnimationEnd',function(){
+		_p.removeClass('animated flash');
+		jqObj.removeClass('error-border');
+	  });
+  }
+
+  var addressInfoVaild = function(){
+	if($('#new_address').val()==''){
+	   inputVaildError($('#new_address'),300);
+	   return false;
+	}
+
+	if($('#new_contact').val()==''){
+	   inputVaildError($('#new_contact'),350);
+	   return false;
+	}
+
+	if(!M.IS_MOBILE($('#new_tel').val())){
+	   inputVaildError($('#new_tel'),400);
+	   return false;
+	}
+	return true;
+  }
+
+  var regionVaild = function(){
+	if(jq.region_sel.val()=='0'){
+		inputVaildError(jq.region_sel,300);
+		return false;
+	}
+	if(jq.dis_district.val()=='0'&&jq.dis_district.css('display')!='none'){
+		inputVaildError(jq.dis_district,300);
+		return false;
+	}
+	return true;
+  }
 
   var saveconsignee = function(_this) {
     var me = this;
     var addressObj;
+	if(!regionVaild()){
+		return false;
+	}
+
 	if(CURRENT_ADDRESS_ID){
 	   addressObj = $('#address_'+CURRENT_ADDRESS_ID);
+	}else{
+		if(!addressInfoVaild()){
+			return false;
+		}
 	}
+	
 
     var data = {
 		address_id:CURRENT_ADDRESS_ID||0,
@@ -545,5 +595,10 @@
 
   $('#done_button').click(function() {
 	saveconsignee();
+  });
+
+  $('.pay_sel').click(function(){
+	 $('.pay_sel').removeClass('checked');
+	 $(this).addClass('checked');
   });
  })(); 

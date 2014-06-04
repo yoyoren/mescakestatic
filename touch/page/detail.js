@@ -18,6 +18,7 @@
 	M.get('route.php?action=get_user_order_detail&mod=account',{
 		order_id:window.orderId
 	},function(d){
+			
 		var tmpl ='<div class="order-detail-con clearfix">\
 					  <p>订单号：<%=order.order_sn%>| <%=order.formated_add_time%></p>\
 					  <p>订单状态：<%if(order.order_status==0){%>未确认\
@@ -67,7 +68,10 @@
 						<% } %>\
 					  <div class="woi-intro-area">\
 						<p class="woi-title"><%=data[i].goods_name%></p>\
-						<p class="woi-tip">尺寸：<%=data[i].goods_attr%><span class="woi-price"><%=data[i].goods_price%>元</span></p>\
+						<p class="woi-tip">尺寸：<%=data[i].goods_attr%><span class="woi-price"><%=data[i].subtotal%>元</span></p>\
+						<div class="" style="padding-top:6px;">\
+							数量：<b><%=data[i].goods_number%></b> / 个\
+						  </div>\
 					  </div>\
 					</div>\
 					<% } %>\

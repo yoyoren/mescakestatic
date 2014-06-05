@@ -261,7 +261,7 @@ a.btn:hover{text-decoration: none;}
 .text-area{border:0 none; background: none; padding: 10px 0; color: #333; 
 -webkit-appearance: none; -moz-appearance: none; appearance: none;
   display: inline-block; *display: inline; *zoom:1;}
-.global-input{height: 22px; line-height: 22px;  width: 240px; margin-bottom: 20px;}
+.global-input{height: 22px; line-height: normal;  width: 240px; margin-bottom: 20px;}
 .text-area{height: 60px; line-height: 18px; width: 240px; margin-bottom: 20px;} 
 .has-bor-input:focus{box-shadow: inset 0 0 8px #eaeaea;}
 .has-bor-input{border:1px solid #e5e5e5; border-radius: 3px;  background: #fff; padding: 10px;}
@@ -638,7 +638,7 @@ padding: 4px 10px;}
 .add-ico{background: url(img/iconfont-add.png) 0 0 no-repeat; background-size: 20px 20px;}
 .minus-ico{background: url(img/iconfont-jian.png) 0 0 no-repeat; background-size: 20px 20px;}
 
-.num-input{border: 1px solid #ccc; height: 16px; line-height: 16px; padding: 4px 0; margin-bottom: 0; text-align: center; color: #333;}
+.num-input{border: 1px solid #ccc; height: 16px; line-height: 16px; padding: 4px 0; margin-bottom: 0; text-align: center; color: #333; vertical-align: middle;}
 .minus-ico-me,
 .add-ico-me{display: inline-block; width: 24px; height: 24px; line-height:24px; border: 1px solid #ccc; border-radius: 4px; text-align: center; font-size: 16px; vertical-align: middle;}
 .add-ico-me{color: #f00;}
@@ -646,7 +646,7 @@ padding: 4px 10px;}
 /* 添加地址 */
 .wap-add-adress{padding:0 10px;}
 .wap-add-adress .check-container{width: 100%;}
-.wap-add-adress .global-input{box-sizing:border-box; width: 100%; height: 44px; line-height: 22px; margin-bottom: 10px;}
+.wap-add-adress .global-input{box-sizing:border-box; width: 100%; height: 44px; line-height: normal; margin-bottom: 10px;}
 .wap-add-adress .wap-check-tip{margin-bottom: 10px;}
 
 .scroll-area{display:block;height:100%;overflow:scroll; box-sizing:border-box; padding: 60px 0;}

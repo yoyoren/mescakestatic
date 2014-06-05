@@ -29,13 +29,13 @@
 									<%}else if(order.order_status==5){%>已分单\
 									<%}else if(order.order_status==6){%>部分分单\
 							<%}%></b> | 配送状态：\
-							<%if(order.shipping_status==0){%>未发货\
+							<b><%if(order.shipping_status==0){%>未发货\
 							<%}else if(order.shipping_status==1){%>已发货\
 							<%}else if(order.shipping_status==2){%>已收货\
 							<%}else if(order.shipping_status==3){%>备货中\
 							<%}else if(order.shipping_status==4){%>已发货(部分商品)\
 							<%}else if(order.shipping_status==5){%>发货中(处理分单)\
-						    <%}else if(order.shipping_status==6){%>已发货(部分商品)<%}%> |\
+						    <%}else if(order.shipping_status==6){%>已发货(部分商品)<%}%></b> |\
 					<%if(order.pay_id==4){%>货到付款\
 					<% } else {%>\
 						<%if(order.pay_status==0||!order.pay_status){%>\
@@ -67,8 +67,8 @@
 								</a>\
 						<% } %>\
 					  <div class="woi-intro-area">\
-						<p class="woi-title"><%=data[i].goods_name%></p>\
-						<p class="woi-tip">尺寸：<%=data[i].goods_attr%><span class="woi-price"><%=data[i].subtotal%>元</span></p>\
+						<p class="woi-title"><%=data[i].goods_name%><span class="woi-price"><%=data[i].subtotal%>元</span></p>\
+						<p class="woi-tip">尺寸：<%=data[i].goods_attr%></p>\
 						<div class="" style="padding-top:6px;">\
 							数量：<b><%=data[i].goods_number%></b> / 个\
 						  </div>\

@@ -501,7 +501,7 @@
 		inputVaildError(jq.region_sel,300);
 		return false;
 	}
-	if(jq.dis_district.val()=='0'&&jq.dis_district.css('display')!='none'){
+	if(jq.dis_district.val()=='0'&&jq.dis_district.parent().css('display')!='none'){
 		inputVaildError(jq.dis_district,300);
 		return false;
 	}

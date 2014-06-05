@@ -112,17 +112,26 @@
 		$('body').append(html);
 		var dialog = $('#dialog_'+dialogIndex);
 		dialog.css({top:((win.height()-dialog.height())/2)});
+		dialog.addClass('animated-quick bounceIn');
+		
 		dialog.show();
 		dialog.find('.confirm').click(function(){
 			onconfirm&&onconfirm();
-			dialog.remove();
-			$('.dialog_bg').remove();
+			dialog.addClass('animated-quick bounceOut');
+			dialog[0].addEventListener('webkitAnimationEnd',function(){
+				dialog.remove();
+				$('.dialog_bg').remove();
+			},false);
 		});
 
 		dialog.find('.cancel').click(function(){
 			oncancel&&oncancel();
-			dialog.remove();
-			$('.dialog_bg').remove();
+			dialog.addClass('animated-quick bounceOut');
+			dialog[0].addEventListener('webkitAnimationEnd',function(){
+				dialog.remove();
+				$('.dialog_bg').remove();
+			},false);
+			
 		});
    }
    M.loading = function(){

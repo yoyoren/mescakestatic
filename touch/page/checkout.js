@@ -509,10 +509,7 @@
 
   var saveconsignee = function(_this) {
     var me = this;
-    var addressObj;
-	if(!regionVaild()){
-		return false;
-	}
+    var addressObj;	
 
 	if(CURRENT_ADDRESS_ID){
 	   addressObj = $('#address_'+CURRENT_ADDRESS_ID);
@@ -520,8 +517,14 @@
 		if(!addressInfoVaild()){
 			return false;
 		}
+
+		if(!regionVaild()){
+			return false;
+		}
 	}
-	
+	if(jq.hour_sel.css('display')=='none'){
+		return false;
+	}
 
     var data = {
 		address_id:CURRENT_ADDRESS_ID||0,
@@ -550,11 +553,11 @@
     //保存订单
     M.post('route.php?action=save_consignee&mod=order',data || {},function(d){
 		if (d.msg == 'time error') {
-            M.confirm('您所选择的送货时间距离制作时间少于5小时，请重新选择!');
+            M.confirm('您所选择的送货时间距离制作时间不能少于5小时!');
         }
 
 		if (d.code != 0) {
-          M.confirm('您所填写的收货信息不完善，您可以尝试重新填写后再提交');
+          M.confirm('收货信息填写不完整，重新填写后再提交');
           submitFail();
           return;
         }

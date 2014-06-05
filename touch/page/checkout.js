@@ -533,7 +533,7 @@
         country : 441,
         city : addressObj?addressObj.data('city'):jq.region_sel.val().split('_')[0],
         address : addressObj?addressObj.data('address'):$('#new_address').val(),
-        district : addressObj?addressObj.data('district'):jq.dis_district.val(),
+        district : addressObj?addressObj.data('district'):jq.dis_district.val().split('_')[0],
         mobile : addressObj?addressObj.data('tel'):$('#new_tel').val(),
         bdate : getSelDate(),
         hour : jq.hour_sel.val(),

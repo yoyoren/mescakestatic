@@ -1,6 +1,6 @@
 (function(){
 	var eventBind = function(){
-		$('#canel_order').click(function(){
+		$('#canel_order')[CLICK](function(){
 					M.confirm('确认取消该订单吗？取消后将无法恢复！',function(){
 						M.post('route.php?action=del_one_order&mod=account',{
 							'order_id':window.orderId

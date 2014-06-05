@@ -1,10 +1,17 @@
 (function(){
+	var UA =  window.navigator.userAgent;
+	UA = UA.toLowerCase();
 	win = $(window);
 	window.CANDLE = 61;
     window.NUM_CANDLE = 67;
     window.CAT_CAKE = 68;
     window.FORK = 60;
-   
+    if(/ipad|iphone|android/.test(UA)){
+		window.MobileDevice = true;
+		window.CLICK = 'tap';
+	}else{
+		window.CLICK = 'click';
+	}
 	
 	M = window.M||{};
 	var IS_MOBILE = /^1[3|4|5|8|9]\d{9}$/;
@@ -115,7 +122,7 @@
 		dialog.addClass('animated-quick bounceIn');
 		
 		dialog.show();
-		dialog.find('.confirm').click(function(){
+		dialog.find('.confirm')[CLICK](function(){
 			onconfirm&&onconfirm();
 			dialog.addClass('animated-quick bounceOut');
 			dialog[0].addEventListener('webkitAnimationEnd',function(){
@@ -124,7 +131,7 @@
 			},false);
 		});
 
-		dialog.find('.cancel').click(function(){
+		dialog.find('.cancel')[CLICK](function(){
 			oncancel&&oncancel();
 			dialog.addClass('animated-quick bounceOut');
 			dialog[0].addEventListener('webkitAnimationEnd',function(){

@@ -39,7 +39,8 @@
 				$('#more_address_btn').hide();
 			});
 		}
-		$('#new_address_btn').show().click(function(){
+		$('#new_address_btn').show();
+		$('#new_address_btn')[CLICK](function(){
 			location.href = '/newaddress';
 		});
 		
@@ -52,14 +53,14 @@
   });	
   
  var payLock = false;
-  $('body').delegate('.pay_container','click',function(){
+  $('body').delegate('.pay_container',CLICK,function(){
 	if(payLock){
 		return;
 	}
 	payLock = true;
 	var _this = $(this);
 	var payId = _this.data('id');
-	_this.find('em').trigger('click');
+	_this.find('em').trigger(CLICK);
 	$('#pay_id').val(payId);
 	setTimeout(function(){
 		payLock = false;
@@ -83,7 +84,7 @@
 					} 	 
 		});				
   }
-  address_container.delegate('.address_item', 'click', function() {
+  address_container.delegate('.address_item', CLICK, function() {
 
     var _this = $(this);
     address_container.find('.address_item').removeClass('ama-item-current');
@@ -95,7 +96,7 @@
     //计算一个地址是否需要运送费
     ifAddressNeedFee();
 
-  }).delegate('.addr_del', 'click', function() {
+  }).delegate('.addr_del', CLICK, function() {
     //delete an address info if you want
     var _this = $(this);
     var id = _this.data('id');
@@ -114,7 +115,7 @@
       });
     })
     return false;
-  }).delegate('.addr_edit', 'click', function() {
+  }).delegate('.addr_edit', CLICK, function() {
     //edit address info
     var _this = $(this);
     var id = _this.data('id');
@@ -596,11 +597,11 @@
 	});
   }
 
-  $('#done_button').click(function() {
+  $('#done_button')[CLICK](function() {
 	saveconsignee();
   });
 
-  $('.pay_sel').click(function(){
+  $('.pay_sel')[CLICK](function(){
 	 $('.pay_sel').removeClass('checked');
 	 $(this).addClass('checked');
   });

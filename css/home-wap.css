@@ -63,7 +63,7 @@ body{*position:relative;} /* 针对ie6body里面有position的bug。*/
   .s-img-area-inner:hover{text-decoration: none;}
   .s-img-intro{position: absolute; display: block;}
   .s-img-area-inner h2{font-size: 40px; padding-bottom: 10px;}
-  .s-img-area-inner p{font-size: 18px; color: #333; line-height: 1.8;}
+  .s-img-area-inner p{font-size: 14px; color: #333; line-height: 1.8;}
 
 
 /* 结账时的留言和总数 */

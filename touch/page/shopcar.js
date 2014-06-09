@@ -1,8 +1,12 @@
   (function(){
         var tmpl = '<% for(var i=0;i<data.length;i++){ %>\
 			<div class="wap-order-item" id="sub_order_<%=data[i].rec_id%>">\
+				<%if(data[i].goods_id == CAT_CAKE) {%>\
+					<img src="'+M.staticDomain+'css/img/cat-little.jpg" class="woi-img">\
+				<% } else {%>\
 				<img src="http://www.mescake.com/themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.jpg" class="woi-img">\
-				<div class="woi-intro-area">\
+				<% } %>\
+			    <div class="woi-intro-area">\
 				  <p class="woi-title"><%=data[i].goods_name%></p>\
 				  <p class="woi-tip">尺寸：<%=data[i].goods_attr%><span class="woi-price" id="sub_total_<%=data[i].rec_id%>"><%=data[i].subtotal%>元</span></p>\
 				  <div class="" style="padding-top:6px;">\

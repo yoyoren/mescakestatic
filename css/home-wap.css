@@ -420,6 +420,10 @@ a.btn:hover{text-decoration: none;}
 .WB_FB_show{margin-left:10px;}
 .copyright{margin-left: 10px;}
 
+.footer-link-area{color: #666; text-align: center; padding: 10px 0;}
+.footer-link-area a{color: #666;}
+.footer-link-area p{font-size: 12px; }
+
 
    .pro-content{width: auto;}
    .pro-list-area{width: 100%;}

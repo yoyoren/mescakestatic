@@ -102,9 +102,11 @@
 							<a href="#" id="canel_order">取消订单</a>\
 						<% } %>\
 					  </div>';
+		
 		var html = M.mstmpl(tmpl2,{
 			order:d.order
 		});
+
 		$('#container').after(html);
 		eventBind();
 		M.loadingEnd();

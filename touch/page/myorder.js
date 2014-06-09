@@ -55,7 +55,7 @@
 			</div>\
 			<%}%>';
 	M.get('route.php?mod=account&action=get_user_order_list',{},function(d){
-		var data = d.orders;
+		var data = d.orders||[];
 				for(var i=0;i<data.length;i++){
 					if(data[i].detail.length == 1){
 					   data[i].showStaff = data[i].detail[0];
@@ -73,7 +73,17 @@
 						data[i].realStaffCount = realStaffCount;
 					}
 				}
-		var html = M.mstmpl(tmpl,{data:data});
+		var emptyTmpl = '<div class="content-area">\
+        <div class="content">\
+          <div class="order-area">\
+            <div class="has-no-order">\
+              <h4 class="content-title">您没购买过任何商品</h4>\
+              <a href="/" class="btn big-btn status2-btn" style="margin-right:0;">赶紧去选购吧 &gt;&gt;</a>\
+            </div>\
+          </div>\
+        </div>\
+      </div>';
+		var html = data.length<1?emptyTmpl:M.mstmpl(tmpl,{data:data});
 		$('#container').html(html);
 		M.loadingEnd();
 	});

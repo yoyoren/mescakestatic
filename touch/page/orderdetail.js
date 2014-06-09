@@ -11,8 +11,19 @@
 					  </div>
 					</div>\
 			     <% } %>';
+		var emptyTmpl = '<div class="content-area">\
+        <div class="content">\
+          <div class="order-area">\
+            <div class="has-no-order">\
+              <h4 class="content-title">您没购买过任何商品</h4>\
+              <a href="/" class="btn big-btn status2-btn" style="margin-right:0;">赶紧去选购吧 &gt;&gt;</a>\
+            </div>\
+          </div>\
+        </div>\
+      </div>';
+		debugger
 		var data = d.goods_list;
-		var html = M.mstmpl(tmpl,{data:d});
+		var html = !data.length?M.mstmpl(tmpl,{data:d}):emptyTmpl;
 		M.loadingEnd();
 	});
  })();

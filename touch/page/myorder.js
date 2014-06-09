@@ -47,7 +47,7 @@
 							<% } %>\
 						<% } %>\
 					   <%if(data[i].order_status==0&&data[i].pay_status!==2){%>\
-						<a href="#" class="oli-cancel cancel_order" data-id="<%=data[i].order_id%>">取消订单</a>\
+				        <em class="check-btn cancel_order" style="margin:0" data-id="<%=data[i].order_id%>">取消订单</em>\
 				       <%}%>\
 					</div>\
 				  </div>\
@@ -88,12 +88,12 @@
 		M.loadingEnd();
 	});
 
-	$(document).delegate('.order_item','click',function(){
+	$(document).delegate('.order_item',CLICK,function(){
 		var id = $(this).data('id');
 		location.href = '/orderdetail?id='+id;
 	});
 
-	$('body').delegate('.cancel_order','click',function(){
+	$('body').delegate('.cancel_order',CLICK,function(){
 			var _jqThis = $(this);
 			var _id = $(this).data('id');
 			M.confirm('确认取消该订单吗？取消后将无法恢复！',function(){
@@ -109,7 +109,7 @@
 					});
 			});
 			return false;
-		}).delegate('.pay_order','click',function(){
+		}).delegate('.pay_order',CLICK,function(){
 			var _this = $(this);
 			var payUrl =_this.attr('href');
 			if(payUrl=='#'&&_this.data('type')=='kuaiqian'){

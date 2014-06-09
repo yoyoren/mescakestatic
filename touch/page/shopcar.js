@@ -57,7 +57,7 @@
 	
 	
 	
-    container.delegate('.order_add','click',function(){
+    container.delegate('.order_add',CLICK,function(){
 				var _this = $(this);
 				var id=_this.data('id');
 				var num = parseInt(_this.prev().val(),10);
@@ -65,7 +65,7 @@
 				_this.prev().val(num);
 				updateCart(id,num);
 				
-			}).delegate('.order_des','click',function(){
+			}).delegate('.order_des',CLICK,function(){
 				var _this = $(this);
 				var id=_this.data('id');
 				var num =parseInt( _this.next().val(),10);
@@ -85,7 +85,7 @@
 					_this.next().val(num);
 					updateCart(id,num);
 				}
-			}).delegate('.order_cancel','click',function(){
+			}).delegate('.order_cancel',CLICK,function(){
 				var _this = $(this);
 				var id=_this.data('id');
 				var goods_id=_this.data('goods');

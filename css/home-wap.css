@@ -453,6 +453,13 @@ a.btn:hover{text-decoration: none;}
 .wap-btn:hover,
 .wap-btn:active{text-decoration: none;}
 .wap-btn:active{background: #82b54b;}
+.wap-btn-area{background: #8aba56; overflow: hidden; padding: 10px 0; text-align: center; width: 100%; position: absolute; top:61px; left: 0; z-index: 10;}
+.wap-btn-area li{width: 25%; float: left; text-align: center;}
+.wap-btn-area .wap-btn{margin: 0; box-sizing:border-box; text-align: center; border-radius: 0;}
+.wap-btn-area .wap-btn.current{background: #fff; color: #333; border-radius: 4px;}
+.wap-btn-area .wap-btn:hover,
+.wap-btn-area .wap-btn:active{text-decoration: none;}
+.wap-btn-area .wap-btn:active{background: #82b54b;}
 
 /* 页面里面的弹框 */
   .content{width: auto;}

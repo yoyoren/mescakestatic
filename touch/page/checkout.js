@@ -174,7 +174,11 @@
   var renderMonth = function(month) {
     var monthHtml = '';
     for (var i = month; i <= 12; i++) {
-      monthHtml += '<option value="' + i + '">' + i + '月</option>'
+	  var selMonth = i;
+	  if(selMonth<10){
+	    selMonth = '0'+selMonth;
+	  }
+      monthHtml += '<option value="' + selMonth + '">' + i + '月</option>'
     }
     jq.month_sel.html(monthHtml);
     jq.month_sel.prev().html(month + '月');
@@ -182,7 +186,11 @@
   var renderDay = function(day) {
     var dayHtml = '';
     for (var i = day; i <= 31; i++) {
-      dayHtml += '<option value="' + i + '">' + i + '日</option>'
+	  var selDay = i;
+	  if(selDay<10){
+	    selDay = '0'+selDay;
+	  }
+      dayHtml += '<option value="' + selDay + '">' + i + '日</option>'
     }
     jq.day_sel.html(dayHtml);
     jq.day_sel.prev().html(day + '日');
@@ -434,7 +442,8 @@
 			//直接提交数据到订购表单
 			M.post('route.php?mod=order&action=checkout',{
 					card_message:'',
-					vaild_code:''
+					vaild_code:'',
+					source:'FROM_MOBILE'
 				},function(d){
 					var jqInput = jq.message_input;
 					$('#leaving_message').val(jqInput.val());

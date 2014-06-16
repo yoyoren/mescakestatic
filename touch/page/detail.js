@@ -67,8 +67,7 @@
 								</a>\
 						<% } %>\
 					  <div class="woi-intro-area">\
-						<p class="woi-title"><%=data[i].goods_name%><span class="woi-price"><%=data[i].subtotal%>元</span></p>\
-						<p class="woi-tip">尺寸：<%=data[i].goods_attr%></p>\
+						<p class="woi-title"><%=data[i].goods_name%> <span class="woi-tip">尺寸：<%=data[i].goods_attr%></span>\<span class="woi-price"><%=data[i].subtotal%>元</span></p>\
 						<div class="" style="padding-top:6px;">\
 							数量：<b><%=data[i].goods_number%></b> / 个\
 						  </div>\

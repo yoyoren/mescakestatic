@@ -601,9 +601,9 @@ display: inline-block;
 /* 下单流程 */
 .wap-order-title-item{color: #ff7e00; padding: 10px;}
 .wap-order-item{border-bottom: 1px solid #f2f2f2; position: relative; padding:10px 10px 10px 60px; overflow: hidden;}
-.woi-img{position: absolute; left: 10px; top:10px; width: 40px;}
+.woi-img{position: absolute; left: 10px; top:10px; width: 75px;}
 .woi-img-num{width: 20px; left: 20px;}
-.woi-intro-area{}
+.woi-intro-area{padding-left:30px}
 .woi-tip{color: #999; font-size: 12px; overflow: hidden;}
 .woi-price{float: right;}
 

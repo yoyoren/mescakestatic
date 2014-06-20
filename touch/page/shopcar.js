@@ -7,9 +7,9 @@
 				<img src="http://www.mescake.com/themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.jpg" class="woi-img">\
 				<% } %>\
 			    <div class="woi-intro-area">\
-				  <p class="woi-title"><%=data[i].goods_name%></p>\
-				  <p class="woi-tip">尺寸：<%=data[i].goods_attr%><span class="woi-price" id="sub_total_<%=data[i].rec_id%>"><%=data[i].subtotal%>元</span></p>\
-				  <div class="" style="padding-top:6px;">\
+				  <p class="woi-title"><%=data[i].goods_name%><span class="woi-tip">(尺寸：<%=data[i].goods_attr%>)</span></p>\
+				  <span class="woi-price" id="sub_total_<%=data[i].rec_id%>"><%=data[i].subtotal%>元</span>\
+				  <div style="padding-top:6px;">\
 					  <em class="minus-ico-me order_des" data-id="<%=data[i].rec_id%>">-</em>\
 					  <input disabled="true" type="text" class="global-input num-input" style="width:30px;" value="<%=data[i].goods_number%>">\
 					  <em class="add-ico-me order_add" data-id="<%=data[i].rec_id%>">+</em>\

@@ -26,6 +26,7 @@
   if(isLogin){
 	  window.IS_LOGIN = true;
 	  M.get('route.php?mod=order&action=get_order_address', {}, function(d) {
+		d = d.reverse();
 		var html = M.mstmpl(addressTmpl, {
 		  data : d
 		});

@@ -918,7 +918,7 @@
 					if(_time > 3600*1000*24||(_time == 3600*1000*24&&currHour<=22)){
 						var startHour = 14;
 						if(_time == 3600*1000*24){
-						   startHour = currHour;
+						   startHour = parseInt(currHour)>=10?currHour:10;
 						}
 						for(var i=startHour;i<=22;i++){
 							_html+='<option value="'+i+'">'+i+'</option>';

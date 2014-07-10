@@ -14,7 +14,7 @@
 						<%=container%>\
 					  </ul>\
 					</div>';
-	  var container = $('#scroll_container');
+	  var container = $('body');
 	 
 
 	  if(type == 'zone'){

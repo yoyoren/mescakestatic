@@ -47,7 +47,8 @@
 					address_container.show().append(html);
 				}else{
 					$('#new_address_link').show();
-				}				
+				}
+				ifAddressNeedFee();
 			});
 		} else {
 			$('#new_address_container').show();
@@ -56,11 +57,17 @@
 	});
 
 	var streetData;
+	var street_container = $('#street_container');
+	var zone_container = $('#zone_container');
+	var curCity;
 	$('#zone_picker')[CLICK](function() {
+
 		new Picker({
 			type : 'zone',
 			el : this,
 			onclick : function(id) {
+				curCity = id;
+				calAddressFee(curCity,0);
 				M.get('route.php?mod=order&action=get_district', {
 					city : id
 				}, function(d) {
@@ -75,9 +82,12 @@
 								}
 							}
 							streetData = d.data;
-							$('#street_container').show();
+							street_container.show();
+				
+							zone_container.css({'width':'30%'});
 						} else {
-							$('#street_container').hide();
+							street_container.hide();
+							zone_container.css({'width':'75%'});
 						}
 					}
 				});
@@ -86,12 +96,13 @@
 	});
 
 	$('#street_picker')[CLICK](function() {
+		
 		new Picker({
 			type : 'street',
 			el : this,
 			data : streetData,
 			onclick:function(id){
-
+				calAddressFee(curCity,id);
 			}
 		});
 	});
@@ -225,20 +236,37 @@
 		}, 20);
 
 	})
+    
+    var _feeDomOperate = function(d){
+		if (parseInt(d.fee)) {
+	   		jq.shipping_fee_display.show();
+			$('#fee_bar').show();
+			$('#address_fee_top').html('10元');
+		} else {
+			jq.shipping_fee_display.hide();
+			$('#fee_bar').hide();
+			$('#address_fee_top').html('免邮费');
+		}
+		jq.shipping_fee.val(d.fee);
+		updateTotalPriceDisplay(d);
+	}
 
+	var calAddressFee = function(city,district){
+		M.get('route.php?mod=order&action=shipping_fee_cal', {
+			city:city,
+			district:district
+		},function(d){
+			_feeDomOperate(d);
+		});
+	}
+	
 	//地址选择
 	var ifAddressNeedFee = function() {
 		M.get('route.php?mod=order&action=if_address_need_fee', {
 			'address_id' : CURRENT_ADDRESS_ID
 		}, function(d) {
 			if (d.code == 0) {
-				if (parseInt(d.fee)) {
-					jq.shipping_fee_display.show();
-				} else {
-					jq.shipping_fee_display.hide();
-				}
-				jq.shipping_fee.val(d.fee);
-				updateTotalPriceDisplay(d);
+				_feeDomOperate(d);
 			}
 		});
 	}
@@ -253,7 +281,7 @@
 		CURRENT_ADDRESS_ID = _this.data('id');
 
 		//计算一个地址是否需要运送费
-		ifAddressNeedFee();
+		
 
 	}).delegate('.addr_del', CLICK, function() {
 		//delete an address info if you want
@@ -326,40 +354,42 @@
 
 	}
 	var vaildDate = function() {
+        var ret = true;
+		
+
 		if (!getSelDate()) {
-			return false;
+			ret = false;
 		}
 
 		var hour = jq.hour_sel.val();
 		if (hour > 22 || hour < 10) {
-			return false;
+			ret = false;
 		}
 
 		var minute = jq.minute_sel.val();
 		if (minute != 0 && minute != 30) {
-			return false;
+			ret = false;
 		}
-		return true;
+
+		if($('#date_picker').val()==''){
+		   inputVaildError($('#date_picker'), 350);
+		   return ret;
+		}
+		
+		return ret;
 	}
 	var submitFail = function() {
 		M.loadingEnd();
 	}
 	var inputVaildError = function(jqObj, t) {
 		var _p = jqObj.parent();
-		_p.addClass('animated flash');
 		jqObj.addClass('error-border');
 		$('#scroll_container').scrollTop(t);
-		_p[0].addEventListener('webkitAnimationEnd', function() {
-			_p.removeClass('animated flash');
-			jqObj.removeClass('error-border');
-		});
+		setTimeout(function(){
+		  jqObj.removeClass('error-border');
+		},2000);
 	}
 	var addressInfoVaild = function() {
-		if ($('#new_address').val() == '') {
-			inputVaildError($('#new_address'), 300);
-			return false;
-		}
-
 		if ($('#new_contact').val() == '') {
 			inputVaildError($('#new_contact'), 350);
 			return false;
@@ -369,19 +399,26 @@
 			inputVaildError($('#new_tel'), 400);
 			return false;
 		}
-		return true;
-	}
-	var regionVaild = function() {
-		if (jq.region_sel.val() == '0') {
-			inputVaildError(jq.region_sel, 300);
+		
+		if($('#district_sel').val()==0&&$('#street_container').css('display')!='none'){
+			inputVaildError($('#street_picker'), 300);
 			return false;
 		}
-		if (jq.dis_district.val() == '0' && jq.dis_district.parent().css('display') != 'none') {
-			inputVaildError(jq.dis_district, 300);
+
+		if($('#region_sel').val()==0){
+			inputVaildError($('#zone_picker'), 300);
 			return false;
 		}
+
+		if ($('#new_address').val() == '') {
+			inputVaildError($('#new_address'), 300);
+			return false;
+		}
+		
+				
 		return true;
 	}
+
 	var saveconsignee = function(_this) {
 	
 		var me = this;
@@ -391,10 +428,6 @@
 			addressObj = $('#address_' + CURRENT_ADDRESS_ID);
 		} else {
 			if (!addressInfoVaild()) {
-				return false;
-			}
-
-			if (!regionVaild()) {
 				return false;
 			}
 		}
@@ -416,7 +449,6 @@
 		};
 
 		if (!vaildDate()) {
-			M.confirm('您选择的送货时间或日期不正确，请重新选择');
 			submitFail();
 			return;
 		}

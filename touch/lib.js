@@ -124,21 +124,16 @@
 		dialog.show();
 		dialog.find('.confirm')[CLICK](function(){
 			onconfirm&&onconfirm();
-			dialog.addClass('animated-quick bounceOut');
-			dialog[0].addEventListener('webkitAnimationEnd',function(){
-				dialog.remove();
-				$('.dialog_bg').remove();
-			},false);
+			dialog.remove();
+			$('.dialog_bg').remove();
+
 		});
 
 		dialog.find('.cancel')[CLICK](function(){
 			oncancel&&oncancel();
-			dialog.addClass('animated-quick bounceOut');
-			dialog[0].addEventListener('webkitAnimationEnd',function(){
-				dialog.remove();
-				$('.dialog_bg').remove();
-			},false);
-			
+			dialog.remove();
+			$('.dialog_bg').remove();
+
 		});
    }
    M.loading = function(){

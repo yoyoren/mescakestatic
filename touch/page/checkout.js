@@ -207,6 +207,10 @@
 		if (tips) {
 			return;
 		}
+		if($('#date_picker').val()==''){
+			M.confirm('请先选择一个送货日期');
+			return;
+		}
 		new Picker({
 			type : 'time',
 			el : this,

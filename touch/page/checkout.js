@@ -388,6 +388,7 @@
 	var inputVaildError = function(jqObj, t) {
 		var _p = jqObj.parent();
 		jqObj.addClass('error-border');
+		t-=100;
 		$('#scroll_container').scrollTop(t);
 		setTimeout(function(){
 		  jqObj.removeClass('error-border');

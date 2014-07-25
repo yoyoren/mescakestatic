@@ -22,7 +22,7 @@
 	M.touchDomain = 'http://touch.mescake.com/';
 	M.staticDomain = 'http://s1.static.mescake.com/';
 	if(location.host =='touch.n.mescake.com'){
-		M.mainDomain = 'http://test.mescake.com/';
+		M.mainDomain = 'http://www2.mescake.com/';
 		M.touchDomain = 'http://touch.n.mescake.com/';
 		M.staticDomain = 'http://static.n.mescake.com/';
 	}
@@ -124,21 +124,16 @@
 		dialog.show();
 		dialog.find('.confirm')[CLICK](function(){
 			onconfirm&&onconfirm();
-			dialog.addClass('animated-quick bounceOut');
-			dialog[0].addEventListener('webkitAnimationEnd',function(){
-				dialog.remove();
-				$('.dialog_bg').remove();
-			},false);
+			dialog.remove();
+			$('.dialog_bg').remove();
+
 		});
 
 		dialog.find('.cancel')[CLICK](function(){
 			oncancel&&oncancel();
-			dialog.addClass('animated-quick bounceOut');
-			dialog[0].addEventListener('webkitAnimationEnd',function(){
-				dialog.remove();
-				$('.dialog_bg').remove();
-			},false);
-			
+			dialog.remove();
+			$('.dialog_bg').remove();
+
 		});
    }
    M.loading = function(){

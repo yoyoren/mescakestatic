@@ -24,35 +24,41 @@
 			window.IS_LOGIN = true;
 			M.get('route.php?mod=order&action=get_order_address', {}, function(d) {
 				var renderData;
-				d = d.reverse();
-				
-				if(SEL_ADDRESS_ID){
-				   for(var i=0;i<d.length;i++){
-				      if(d[i].address_id == SEL_ADDRESS_ID){
-					     renderData = d[i];
-					  }
-				   }
-				   if(!renderData){
-				      renderData = d[0];
-				   }
-				}else{
-					renderData = d[0];
-				}
-				var html = M.mstmpl(addressSingleTmpl, {
-					data : renderData
-				});
+				//如果有地址
+				if(d.length){
+					d = d.reverse();
+					
+					if(SEL_ADDRESS_ID){
+					   for(var i=0;i<d.length;i++){
+						  if(d[i].address_id == SEL_ADDRESS_ID){
+							 renderData = d[i];
+						  }
+					   }
+					   if(!renderData){
+						  renderData = d[0];
+					   }
+					}else{
+						renderData = d[0];
+					}
+					var html = M.mstmpl(addressSingleTmpl, {
+						data : renderData
+					});
 
-				if (d.length) {
-					CURRENT_ADDRESS_ID = renderData.address_id;
-					address_container.show().append(html);
+					if (d.length) {
+						CURRENT_ADDRESS_ID = renderData.address_id;
+						address_container.show().append(html);
+					}
+					ifAddressNeedFee();
 				}else{
-					$('#new_address_link').show();
+				  //添加新地址的地方
+				  $('#new_address_link').show();
+				  $('#new_address_link')[CLICK](function(){
+					location.href = '/newaddress';
+				  });
 				}
-				ifAddressNeedFee();
 			});
 		} else {
 			$('#new_address_container').show();
-
 		}
 	});
 
@@ -60,8 +66,8 @@
 	var street_container = $('#street_container');
 	var zone_container = $('#zone_container');
 	var curCity;
-	$('#zone_picker')[CLICK](function() {
-
+	$('#zone_picker')[CLICK](function(e) {
+		e.preventDefault();
 		new Picker({
 			type : 'zone',
 			el : this,
@@ -93,10 +99,11 @@
 				});
 			}
 		});
+		return false;
 	});
 
-	$('#street_picker')[CLICK](function() {
-		
+	$('#street_picker')[CLICK](function(e) {
+		e.preventDefault();
 		new Picker({
 			type : 'street',
 			el : this,
@@ -105,6 +112,7 @@
 				calAddressFee(curCity,id);
 			}
 		});
+		return false;
 	});
 	//日期选择
 	var time = (new Date(server_date * 1));
@@ -141,7 +149,8 @@
 	var beginHour = 10;
 	var tips = '';
 
-	$('#date_picker')[CLICK](function() {
+	$('#date_picker')[CLICK](function(e) {
+		e.preventDefault();
 		$('#time_picker').val('');
 		tips = false;
 		new Picker({
@@ -203,7 +212,8 @@
 		});
 	});
 
-	$('#time_picker')[CLICK](function() {
+	$('#time_picker')[CLICK](function(e) {
+		e.preventDefault();
 		if (tips) {
 			return;
 		}
@@ -428,7 +438,12 @@
 	
 		var me = this;
 		var addressObj;
-
+	    if(window.IS_LOGIN&&!CURRENT_ADDRESS_ID){
+		   M.confirm('您还没有创建收货地址，请先创建一个收货地址',function(){
+			  location.href = '/newaddress';
+		   });
+		   return;
+		}
 		if (CURRENT_ADDRESS_ID) {
 			addressObj = $('#address_' + CURRENT_ADDRESS_ID);
 		} else {
@@ -462,7 +477,9 @@
 		//保存订单
 		M.post('route.php?action=save_consignee&mod=order', data || {}, function(d) {
 			if (d.msg == 'time error') {
-				M.confirm('您所选择的送货时间距离制作时间不能少于5小时!');
+				M.confirm('选择的送货时间距离制作时间不能少于5小时!');
+				submitFail();
+				return;
 			}
 
 			if (d.code != 0) {

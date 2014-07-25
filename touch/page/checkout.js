@@ -68,6 +68,7 @@
 	var curCity;
 	$('#zone_picker')[CLICK](function(e) {
 		e.preventDefault();
+		$(this).blur();
 		new Picker({
 			type : 'zone',
 			el : this,
@@ -104,6 +105,8 @@
 
 	$('#street_picker')[CLICK](function(e) {
 		e.preventDefault();
+		$(this).blur();
+
 		new Picker({
 			type : 'street',
 			el : this,
@@ -148,9 +151,11 @@
 	var endHour = 22;
 	var beginHour = 10;
 	var tips = '';
+    
 
 	$('#date_picker')[CLICK](function(e) {
 		e.preventDefault();
+		$(this).blur();
 		$('#time_picker').val('');
 		tips = false;
 		new Picker({
@@ -214,6 +219,7 @@
 
 	$('#time_picker')[CLICK](function(e) {
 		e.preventDefault();
+		$(this).blur();
 		if (tips) {
 			return;
 		}

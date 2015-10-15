@@ -5,7 +5,7 @@
 						 <%if(data[i].goods_id == CAT_CAKE) {%>\
 							<img src="'+M.staticDomain+'css/img/cat-little.jpg">\
 						<% } else {%>\
-						<img src="http://www.mescake.com/themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.jpg">\
+						<img width="50" src="http://www.mescake.com/themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.jpg">\
 						<% } %>\
 						</div>\
 						<div class="woi-intro-area">\

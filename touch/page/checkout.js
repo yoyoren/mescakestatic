@@ -46,7 +46,11 @@
 
 					if (d.length) {
 						CURRENT_ADDRESS_ID = renderData.address_id;
-						address_container.show().append(html);
+						address_container.append(html);
+						var shipping_site = localStorage.getItem('shipping_site');
+						if(!shipping_site){
+							address_container.show();
+						}
 					}
 					ifAddressNeedFee();
 				}else{

@@ -62,7 +62,11 @@
 				}
 			});
 		} else {
-			$('#new_address_container').show();
+			var shipping_site = localStorage.getItem('shipping_site');
+			if(!shipping_site){
+				$('#new_address_container').show();
+			}
+			
 		}
 	});
 
@@ -122,7 +126,7 @@
 		return false;
 	});
 	//日期选择
-	var time = (new Date(server_date * 1));
+	var time = (new Date(window.server_date * 1));
 	var year = time.getFullYear();
 	var month = time.getMonth() + 1;
 	var day = time.getDate();
@@ -157,14 +161,15 @@
 	var tips = '';
     
 
-	$('#date_picker')[CLICK](function(e) {
+	$('#date_picker_parent')[CLICK](function(e) {
 		e.preventDefault();
+		e.stopPropagation();
 		$(this).blur();
 		$('#time_picker').val('');
 		tips = false;
 		new Picker({
 			type : 'date',
-			el : this,
+			el : $('#date_picker'),
 			onclick : function(year, month, day) {
 				jq.year_sel.val(year);
 				jq.month_sel.val(month);
@@ -221,19 +226,20 @@
 		});
 	});
 
-	$('#time_picker')[CLICK](function(e) {
+	$('#time_picker_parent')[CLICK](function(e) {
 		e.preventDefault();
 		$(this).blur();
 		if (tips) {
 			return;
 		}
 		if($('#date_picker').val()==''){
-			M.confirm('请先选择一个送货日期');
+			alert('请先选择一个送货日期,然后再选择时间');
+			//M.confirm('请先选择一个送货日期');
 			return;
 		}
 		new Picker({
 			type : 'time',
-			el : this,
+			el : $('#time_picker'),
 			beginHour : beginHour,
 			endHour : endHour,
 			tips : tips,
@@ -448,17 +454,41 @@
 	
 		var me = this;
 		var addressObj;
-	    if(window.IS_LOGIN&&!CURRENT_ADDRESS_ID){
-		   M.confirm('您还没有创建收货地址，请先创建一个收货地址',function(){
-			  location.href = '/newaddress';
-		   });
-		   return;
-		}
-		if (CURRENT_ADDRESS_ID) {
-			addressObj = $('#address_' + CURRENT_ADDRESS_ID);
-		} else {
-			if (!addressInfoVaild()) {
-				return false;
+		if(!window.ZT){
+			if(window.IS_LOGIN&&!CURRENT_ADDRESS_ID){
+			   //M.confirm('您还没有创建收货地址，请先创建一个收货地址',function(){
+			//	  location.href = '/newaddress';
+			   //});
+			   alert('您还没有创建收货地址，请先创建一个收货地址');
+			   location.href = '/newaddress';
+			   return;
+			}
+		
+			if (CURRENT_ADDRESS_ID) {
+				addressObj = $('#address_' + CURRENT_ADDRESS_ID);
+			} else {
+				if (!addressInfoVaild()) {
+					return false;
+				}
+			}
+		}else{
+			//自提流程
+			var shipping_site = localStorage.getItem('shipping_site');
+			var self_shipping_name = $('#self_shipping_name').val();
+			var self_shipping_mobile = $('#self_shipping_mobile').val();
+			if(!self_shipping_name){
+				inputVaildError($('#self_shipping_name'), 350);
+				alert('请填写一个联系人姓名')
+				return;
+			}
+			if(!self_shipping_mobile || !/\d{11}/.test(self_shipping_mobile)){
+				inputVaildError($('#self_shipping_mobile'), 350);
+				alert('请填写一个11位联系人手机号码')
+				return;
+			}
+			if(!shipping_site){
+				alert('请先选择一个自提站点')
+				return;
 			}
 		}
         
@@ -477,6 +507,12 @@
 			inv_payee : '',
 			inv_content : ''
 		};
+		
+		if(window.ZT){
+		   data.shipping = 'ZT';
+		   data.self_shipping_name = self_shipping_name;
+		   data.self_shipping_mobile = self_shipping_mobile;
+		}
 
 		if (!vaildDate()) {
 			submitFail();
@@ -487,13 +523,15 @@
 		//保存订单
 		M.post('route.php?action=save_consignee&mod=order', data || {}, function(d) {
 			if (d.msg == 'time error') {
-				M.confirm('选择的送货时间距离制作时间不能少于5小时!');
+				//M.confirm('选择的送货时间距离制作时间不能少于5小时!');
+				alert('选择的送货时间距离制作时间不能少于5小时!');
 				submitFail();
 				return;
 			}
 
 			if (d.code != 0) {
-				M.confirm('收货信息填写不完整，重新填写后再提交');
+				//M.confirm('收货信息填写不完整，重新填写后再提交');
+				alert('收货信息填写不完整，重新填写后再提交');
 				submitFail();
 				return;
 			}

@@ -21,7 +21,6 @@
           </div>\
         </div>\
       </div>';
-		debugger
 		var data = d.goods_list;
 		var html = !data.length?M.mstmpl(tmpl,{data:d}):emptyTmpl;
 		M.loadingEnd();

@@ -77,18 +77,34 @@
 		callback();
 	    });	    
 	  }
+	  
 	  $('#buy_now')[CLICK](function(){
-	        M.loading();
-		add_to_cart(function(){
-		   location.href = M.touchDomain+'checkout';
-		});
+		  M.checklogin(function(isLogin) {
+			if (isLogin) {
+				M.loading();
+				add_to_cart(function(){
+				   location.href = M.touchDomain+'checkout';
+				});
+			} else {
+				location.href = M.touchDomain+'login';
+				localStorage.setItem('login_redirect_url',location.href);
+			}
+		})
 		return false;
 	  });
 
 	  $('#add_to_cart')[CLICK](function(){
-		add_to_cart(function(){
-			M.getShopCarCount(true);
-		});
+		  M.checklogin(function(isLogin) {
+			  if (isLogin) {
+				  add_to_cart(function(){
+					 M.getShopCarCount(true);
+				  });
+			  } else {
+				location.href = M.touchDomain+'login';
+				localStorage.setItem('login_redirect_url',location.href);
+			  }
+		   });
+		
 		return false;
 	  });
 

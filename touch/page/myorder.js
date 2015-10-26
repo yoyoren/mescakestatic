@@ -2,7 +2,7 @@
   var tmpl = '<%for(var i=0;i<data.length;i++) {%>\
 			  <div class="content" id="orderitem_<%=data[i].order_id%>">\
 				<p class="oli-tip"><span class="fl-l">订单号:<%=data[i].order_sn%></span><span class="fl-r">时间:<%=data[i].best_time.split(" ")[0]%></span></p>\
-				<div class="od-list-item order_item" data-id="<%=data[i].order_id%>">\
+				<div class="od-list-item order_item" data-sn="<%=data[i].order_sn%>" data-id="<%=data[i].order_id%>" data-pay="<%=data[i].pay_id%>">\
 				  <div class="oli-img-item">\
 					<%if(data[i].showStaff) {%>\
 												<%if(data[i].showStaff.goods_id == CAT_CAKE) {%>\
@@ -41,7 +41,7 @@
 										  </a>\
 										  <div style="display:none" id="pay_form_<%=data[i].order_id%>"><%=data[i].pay_online.pay_online.replace(/script/gi,"a")%></div>\
 							<%}else{%>\
-										  <a href="<%=data[i].pay_online.pay_online%>" class="btn status1-btn vt-a pay_order" data-id="<%=data[i].order_id%>">\
+										  <a href="<%=data[i].pay_online.pay_online%>" class="btn status1-btn vt-a pay_order" data-pay="<%=data[i].pay_id%>" data-id="<%=data[i].order_id%>">\
 											付款\
 										  </a>\
 							<% } %>\
@@ -90,7 +90,20 @@
 
 	$(document).delegate('.order_item',CLICK,function(){
 		var id = $(this).data('id');
-		location.href = '/orderdetail?id='+id;
+		var payid = $(this).data('pay');
+		var ordersn = $(this).data('sn');
+		if(payid == 9){
+			//location.href = '/orderdetail?id='+id;
+			 M.post('route.php?mod=order&action=set_pay_session', {
+				   ordersn:ordersn
+			   },function(d){
+				   location.href = 'http://www.mescake.com/weixin_checkout_orderdetail.php';
+				   //location.href = url;
+			 });
+			//location.href = 'http://www.mescake.com/weixin_checkout_orderdetail.php';
+		}else{
+			location.href = '/orderdetail?id='+id;
+		}
 	});
 
 	$('body').delegate('.cancel_order',CLICK,function(){
@@ -112,6 +125,7 @@
 		}).delegate('.pay_order',CLICK,function(){
 			var _this = $(this);
 			var payUrl =_this.attr('href');
+			var payId = _this.data('pay');
 			if(payUrl=='#'&&_this.data('type')=='kuaiqian'){
 				$('#pay_form_'+_this.data('id')).find('form')[0].submit();
 

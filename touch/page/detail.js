@@ -108,9 +108,16 @@
 		});
 
 		$('#container').after(html);
+		if(IN_WX_PAY){
+			$('#pay_online').html('微信支付');
+		}
 		eventBind();
 		var WX_PAY = 9;
 		$('#pay_online').click(function(){
+			if(IN_WX_PAY){
+			   callpay();
+			   return;
+			}
 			if(orderObj.pay_id == WX_PAY){
 		       var ordersn = orderObj.order_sn;
 			   var url = 'http://www.mescake.com/weixin_checkout.php?orderid='+orderId;

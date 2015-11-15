@@ -79,7 +79,7 @@
 					<div class="address-con">\
 					  <p><em>送货时间：</em>将于<%=order.best_time%>送达</p>\
 					  <p><em>收货地址：</em>北京市 <%=order.cityName%> <%=order.address%><br />\
-					  <%=order.consignee%>，<%=order.ordertel%></p>\
+					  <%=order.consignee%>，<%=order.mobile%></p>\
 				  </div>';
 		var data = d.goods_list;
 		var orderObj = d.order;

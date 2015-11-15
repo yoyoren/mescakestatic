@@ -29,7 +29,7 @@ background: -webkit-linear-gradient(top, #fff, #ededed);
 background: -moz-linear-gradient(top, #fff, #ededed);
 background: -ms-linear-gradient(top, #fff, #ededed);
 background: linear-gradient(top, #fff, #ededed);
-border-top: 1px solid #ccc; padding: 10px 0 6px 0; position: absolute; bottom: 0; left: 0; width: 100%;}
+border-top: 1px solid #ccc; padding: 10px 0 6px 0; position: fixed; z-index:0; bottom: 0; left: 0; width: 100%;}
 .wap-total-btn-area p{color: #ff7e00;}
 .wtb-item-total{width: 160px; display: inline-block; padding-left: 10px;}
 .wtb-item-btn{float: right;}

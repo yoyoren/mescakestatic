@@ -1,0 +1,21 @@
+.s-img-area-inner p{font-size: 14px;}
+.s-img-area{padding:30px 0 0; height: auto;}
+.s-img-area-inner img{height: auto;}
+
+.head-01 .s-img-area-inner{padding-bottom: 40px; width: 320px;}
+.s-img-area img{max-width: 300px;}
+.head-01.s-img-area{padding: 0px;}
+.head-01.s-img-area img{height: 280px; max-width: none; margin-left: -56px;}
+.head-01 .name{font-size: 18px; font-weight: bold; width: 280px; margin: 0 auto; margin-top: -60px; position: relative; z-index: 2;}
+.head-01 .name span{font-size: 12px; color:#666;}
+
+/*@font-face{font-family: MFYaYuan_Noncommercial-Regular; src:url('MFYaYuan_Noncommercial-Regular.otf') format('otf'),url('MFYaYuan_Noncommercial-Regu.ttf') format('truetype');}
+.s-img-area{font-family: MFYaYuan_Noncommercial-Regular;}*/
+
+.sia_02 .s-img-intro{position: relative; z-index: 4; margin: 0 auto}
+.sia_02 img{margin-top: -10px; margin-right: -10px;}
+
+.sia_02 .s-img-area-inner{min-width: 320px; max-width: 480px; margin: 0 auto;}
+
+.scroll-area{padding-top: 50px;}
+.wap-pro-tip{position: relative; z-index: 4;}

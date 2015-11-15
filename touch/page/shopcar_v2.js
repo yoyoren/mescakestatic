@@ -3,7 +3,7 @@
 						<div class="wap-order-item">\
 						<div class="woi-img">\
 						 <%if(data[i].goods_id == CAT_CAKE) {%>\
-							<img src="'+M.staticDomain+'css/img/cat-little.jpg">\
+							<img width="50" src="'+M.staticDomain+'css/img/cat-little.jpg">\
 						<% } else {%>\
 						<img width="50" src="http://www.mescake.com/themes/default/images/sgoods/<%=data[i].goods_sn.substring(0,3)%>.jpg">\
 						<% } %>\

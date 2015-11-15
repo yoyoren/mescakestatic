@@ -13,7 +13,7 @@
 											<% } %>\
 				  </div>\
 				  <div>\
-					<p class="oli-price">共<%=data[i].realStaffCount%>件商品 <span>￥<%=data[i].order_amount%></span></p>\
+					<p class="oli-price">共<%=data[i].realStaffCount%>件商品 <span></span></p>\
 					<p class="woi-tip">\
 								<%if(data[i].order_status==0){%>未确认\
 									<%} else {%>\
